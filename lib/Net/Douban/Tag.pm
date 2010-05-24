@@ -1,5 +1,7 @@
 package Net::Douban::Tag;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Tag::VERSION = '1.06_1';
+}
 
 use Moose;
 use Carp qw/carp croak/;

@@ -1,5 +1,7 @@
 package Net::Douban::Recommendation;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Recommendation::VERSION = '1.06_1';
+}
 
 use Moose;
 use Carp qw/carp croak/;
@@ -8,6 +10,13 @@ with 'Net::Douban::Roles::More';
 has 'recommendationID' => (
     is  => 'rw',
     isa => 'Str',
+);
+
+has 'recommendation_url' => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->base_url . '/recommendation' },
 );
 
 sub get_recommendation {

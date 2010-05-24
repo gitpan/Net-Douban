@@ -4,37 +4,53 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.11;
+use ExtUtils::MakeMaker 6.31;
 
 
 
 my %WriteMakefileArgs = (
-                       'test' => {
-                                   'TESTS' => 't/*.t'
-                                 },
-                       'NAME' => 'Net::Douban',
-                       'DISTNAME' => 'Net-Douban',
-                       'AUTHOR' => 'woosley.xu',
-                       'ABSTRACT' => 'Perl client wrapper for Chinese website douban.com API',
-                       'EXE_FILES' => [],
-                       'VERSION' => '1.06',
-                       'LICENSE' => 'perl',
-                       'PREREQ_PM' => {
-                                        'Scalar::Util' => '0',
-                                        'ExtUtils::MakeMaker' => '6.11',
-                                        'XML::Atom' => '0.35',
-                                        'HTTP::Request::Common' => '0',
-                                        'Test::More' => '0',
-                                        'LWP::UserAgent' => '0',
-                                        'Net::OAuth' => '0',
-                                        'HTTP::Request' => '0',
-                                        'Moose' => '0'
-                                      }
-                     );
+  'ABSTRACT' => 'Perl client wrapper for Chinese website douban.com API',
+  'AUTHOR' => 'woosley.xu',
+  'BUILD_REQUIRES' => {},
+  'CONFIGURE_REQUIRES' => {
+    'ExtUtils::MakeMaker' => '6.31'
+  },
+  'DISTNAME' => 'Net-Douban',
+  'EXE_FILES' => [],
+  'LICENSE' => 'perl',
+  'NAME' => 'Net::Douban',
+  'PREREQ_PM' => {
+    'HTTP::Request' => '0',
+    'HTTP::Request::Common' => '0',
+    'LWP::UserAgent' => '0',
+    'Moose' => '0',
+    'Net::OAuth' => '0',
+    'Scalar::Util' => '0',
+    'Test::More' => '0',
+    'XML::Atom' => '0.35'
+  },
+  'VERSION' => '1.06_1',
+  'test' => {
+    'TESTS' => 't/*.t'
+  }
+);
 
 
-delete $WriteMakefileArgs{LICENSE}
-  unless eval { ExtUtils::MakeMaker->VERSION(6.31) };
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM}; 
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod}; 
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
 WriteMakefile(%WriteMakefileArgs);
 

@@ -1,5 +1,7 @@
 package Net::Douban::Doumail;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Doumail::VERSION = '1.06_1';
+}
 
 use Moose;
 use Carp qw/carp croak/;
@@ -8,6 +10,13 @@ with 'Net::Douban::Roles::More';
 has 'doumailID' => (
     is  => 'rw',
     isa => 'Str',
+);
+
+has 'doumail_url' => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->base_url . '/doumail' },
 );
 
 sub inbox {
@@ -77,7 +86,7 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 VERSION
 
-version 1.06
+version 1.06_1
 
 =head1 SYNOPSIS
 

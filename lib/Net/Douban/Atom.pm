@@ -1,5 +1,7 @@
 package Net::Douban::Atom;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Atom::VERSION = '1.06_1';
+}
 
 use Moose;
 use Carp qw/carp croak/;
@@ -111,8 +113,6 @@ our $AUTOLOAD;
 
 sub AUTOLOAD {
 
-    #	my $self = shift;
-    #	my $class = ref $self ? ref $self : $self;
     (my $name = $AUTOLOAD) =~ s/.*:://g;
     return if $name eq 'DESTROY';
     my $sub = <<SUB;
@@ -128,7 +128,6 @@ sub DESTROY { }
 
 no Moose;
 
-#__PACKAGE__->meta->make_immutable;
 1;
 
 __END__
@@ -143,7 +142,7 @@ Net::Douban::Atom - Atom parser
 
 =head1 VERSION
 
-version 1.06
+version 1.06_1
 
 =head1 SYNOPSIS
 	

@@ -1,5 +1,7 @@
 package Net::Douban::Collection;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Collection::VERSION = '1.06_1';
+}
 
 use Moose;
 use Carp qw/carp croak/;
@@ -9,6 +11,13 @@ with 'Net::Douban::Roles::More';
 has 'collectionID' => (
     is  => 'rw',
     isa => 'Str',
+);
+
+has 'collection_url' => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->base_url . '/collection' },
 );
 
 sub get_collection {
@@ -61,7 +70,7 @@ __END__
 
 =head1 VERSION
 
-version 1.06
+version 1.06_1
 
 =head1 SYNOPSIS
 

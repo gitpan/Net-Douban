@@ -1,5 +1,7 @@
 package Net::Douban::Miniblog;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Miniblog::VERSION = '1.06_1';
+}
 
 use Moose;
 use Net::Douban::Atom;
@@ -9,6 +11,13 @@ with 'Net::Douban::Roles::More';
 has 'miniblogID' => (
     is  => 'rw',
     isa => 'Str',
+);
+
+has 'miniblog_url' => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->base_url . '/miniblog' }
 );
 
 sub get_user_miniblog {

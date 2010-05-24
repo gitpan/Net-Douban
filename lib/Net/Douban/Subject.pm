@@ -1,5 +1,7 @@
 package Net::Douban::Subject;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::Subject::VERSION = '1.06_1';
+}
 
 use Moose;
 use Net::Douban::Atom;
@@ -7,6 +9,13 @@ use Carp qw/carp croak/;
 with 'Net::Douban::Roles::More';
 
 has 'subjectID' => (is => 'rw', isa => 'Str');
+
+has 'subject_url' => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->base_url . '/subject' },
+);
 
 sub get_book {
     my ($self, %args) = @_;

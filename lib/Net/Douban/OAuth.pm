@@ -1,5 +1,7 @@
 package Net::Douban::OAuth;
-our $VERSION = '1.06';
+BEGIN {
+  $Net::Douban::OAuth::VERSION = '1.06_1';
+}
 use Moose;
 use Carp qw/carp croak/;
 use Net::Douban::OAuth::Consumer;
@@ -21,6 +23,7 @@ has 'consumer' => (
 
 has 'site' => (
     is      => 'rw',
+	isa		=> 'Str',
     default => 'http://www.douban.com',
 );
 
@@ -63,21 +66,6 @@ around 'BUILDARGS' => sub {
     return $self->$orig(@_);
 };
 
-####不能new?
-#sub new_authorized {
-#    my ($self, %args) = @_;
-#    $self->BUILD(%args);
-#    $args{consumer_key} = delete $args{apikey};
-#    $args{consumer_secret} = delete $args{private_key};
-#    my $consumer = Net::Douban::OAuth::Consumer->new(
-#        authorized => 1,
-#        %args,
-#    );
-#    $self->consumer($consumer);
-#    $self->authorized(1);
-#    return $self;
-#}
-
 sub request_token {
     shift->consumer->get_request_token;
 }
@@ -87,7 +75,6 @@ sub access_token {
 }
 
 sub get {
-
     my $self = shift;
     croak "unauthorized" unless $self->consumer->authorized;
     (my $request_url = shift) or croak "url needed";
@@ -99,7 +86,6 @@ sub get {
 }
 
 sub post {
-
     my $self = shift;
     croak "unauthorized" unless $self->consumer->authorized;
     my ($request_url, $content, $header) = @_;
@@ -121,7 +107,6 @@ sub post {
 }
 
 sub put {
-
     my $self = shift;
     croak "unauthorized" unless $self->consumer->authorized;
     my ($request_url, $content, $header) = @_;
@@ -137,7 +122,6 @@ sub put {
 }
 
 sub delete {
-
     my ($self, $request_url) = @_;
     croak "unauthorized" unless $self->consumer->authorized;
     croak "Url needed"   unless $request_url;
@@ -167,7 +151,7 @@ __END__
 
 =head1 VERSION
 
-version 1.06
+version 1.06_1
 
 =head1 SYNOPSIS
     

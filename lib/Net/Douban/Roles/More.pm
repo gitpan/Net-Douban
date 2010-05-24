@@ -1,5 +1,7 @@
 package Net::Douban::Roles::More;
-our $VERSION = '1.03';
+BEGIN {
+  $Net::Douban::Roles::More::VERSION = '1.06_1';
+}
 
 use Carp qw/carp croak/;
 use Scalar::Util qw/blessed/;
@@ -8,59 +10,59 @@ use Moose::Role;
 with 'Net::Douban::Roles';
 
 has 'base_url' => (
-    is      => 'ro',
+    is      => 'rw',
     default => 'http://api.douban.com',
 );
 
 has 'user_url' => (
-    is      => 'ro',
+    is      => 'rw',
     default => 'http://api.douban.com/people',
 );
 
-has 'collection_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/collection',
-);
+#has 'collection_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/collection',
+#);
 
-has 'subject_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/subject',
-);
+#has 'subject_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/subject',
+#);
 
-has 'review_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/review',
-);
+#has 'review_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/review',
+#);
 
-has 'miniblog_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/miniblog',
-);
+#has 'miniblog_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/miniblog',
+#);
+#
+#has 'note_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/note',
+#);
 
-has 'note_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/note',
-);
-
-has 'event_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/event',
-);
-
-has 'recommendation_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/recommendation',
-);
-
-has 'doumail_url' => (
-    is      => 'ro',
-    default => "http://api.douban.com/doumail",
-);
-
-has 'token_url' => (
-    is      => 'ro',
-    default => 'http://api.douban.com/access_token',
-);
+#has 'event_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/event',
+#);
+#
+#has 'recommendation_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/recommendation',
+#);
+#
+#has 'doumail_url' => (
+#    is      => 'ro',
+#    default => "http://api.douban.com/doumail",
+#);
+#
+#has 'token_url' => (
+#    is      => 'ro',
+#    default => 'http://api.douban.com/access_token',
+#);
 
 sub get {
     my $self = shift;
@@ -91,7 +93,7 @@ sub post {
               ) or croak $!;
             croak $response->status_line unless $response->is_success;
         } else {
-            $response = $self->oauth->post(url => $url,) or croak $!;
+            $response = $self->oauth->post(url => $url) or croak $!;
             croak $response->status_line unless $response->is_success;
         }
         return $response;

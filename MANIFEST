@@ -21,6 +21,7 @@ lib/Net/Douban/Roles.pm
 lib/Net/Douban/Roles/More.pm
 lib/Net/Douban/Subject.pm
 lib/Net/Douban/Tag.pm
+lib/Net/Douban/Token.pm
 lib/Net/Douban/User.pm
 t/00-load.t
 t/01-douban.t
