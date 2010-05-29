@@ -1,7 +1,9 @@
 package Net::Douban::OAuth;
+
 BEGIN {
-  $Net::Douban::OAuth::VERSION = '1.06_1';
+    $Net::Douban::OAuth::VERSION = '1.07';
 }
+
 use Moose;
 use Carp qw/carp croak/;
 use Net::Douban::OAuth::Consumer;
@@ -23,7 +25,7 @@ has 'consumer' => (
 
 has 'site' => (
     is      => 'rw',
-	isa		=> 'Str',
+    isa     => 'Str',
     default => 'http://www.douban.com',
 );
 
@@ -151,7 +153,7 @@ __END__
 
 =head1 VERSION
 
-version 1.06_1
+version 1.07
 
 =head1 SYNOPSIS
     

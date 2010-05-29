@@ -1,9 +1,11 @@
 package Net::Douban::Entry;
+
 BEGIN {
-  $Net::Douban::Entry::VERSION = '1.06_1';
+    $Net::Douban::Entry::VERSION = '1.07';
 }
 
 use Moose;
+use MooseX::StrictConstructor;
 use Net::Douban::DBSubject;
 use Carp qw/carp croak/;
 
@@ -96,24 +98,24 @@ sub subject {
     return $k;
 }
 
-sub DESTROY { }
-our $AUTOLOAD;
-
-sub AUTOLOAD {
-
-    #	my $self = shift;
-    #	my $class = ref $self ? ref $self : $self;
-    (my $name = $AUTOLOAD) =~ s/.*:://g;
-    return if $name eq 'DESTROY';
-    my $sub = <<SUB;
-	sub $name {
-		my \$self =  shift;
-		return \$self->get($name);
-	}
-SUB
-    eval($sub);    ## the same as *$name = $sub;
-    goto &$name;
-}
+#sub DESTROY { }
+#our $AUTOLOAD;
+#
+#sub AUTOLOAD {
+#
+#    #	my $self = shift;
+#    #	my $class = ref $self ? ref $self : $self;
+#    (my $name = $AUTOLOAD) =~ s/.*:://g;
+#    return if $name eq 'DESTROY';
+#    my $sub = <<SUB;
+#	sub $name {
+#		my \$self =  shift;
+#		return \$self->get($name);
+#	}
+#SUB
+#    eval($sub);    ## the same as *$name = $sub;
+#    goto &$name;
+#}
 1;
 
 __END__
@@ -128,7 +130,7 @@ Net::Douban::Entry
 
 =head1 VERSION
 
-version 1.06_1
+version 1.07
 
 =head1 SYNOPSIS
 	
@@ -151,10 +153,6 @@ Many functions not listed here are documented in L<XML::Atom::Entry>
 =over 4
 
 =item get
-
-see L<Net::Douban::Atom>
-
-=item AUTOLOAD
 
 see L<Net::Douban::Atom>
 

@@ -25,10 +25,8 @@ lib/Net/Douban/Token.pm
 lib/Net/Douban/User.pm
 t/00-load.t
 t/01-douban.t
-t/02-user.t
-t/03-subject.t
-t/04-review.t
+t/02-oauth.t
+t/03-atom.t
 t/lib/Test/Douban.pm
-t/oauth.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t

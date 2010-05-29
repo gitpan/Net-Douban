@@ -5,22 +5,23 @@ author:
 build_requires: {}
 configure_requires:
   ExtUtils::MakeMaker: 6.31
-generated_by: 'Dist::Zilla version 2.101310'
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 3.101421, CPAN::Meta::Converter version 2.101410'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Net-Douban
-recommends: {}
 requires:
   HTTP::Request: 0
   HTTP::Request::Common: 0
   LWP::UserAgent: 0
   Moose: 0
+  MooseX::StrictConstructor: 0
   Net::OAuth: 0
   Scalar::Util: 0
   Test::More: 0
   XML::Atom: 0.35
 resources:
-  repository: http://github.com/woosley/Perl-Net-Douban
-version: 1.06_1
+  repository: git://github.com/woosley/Perl-Net-Douban
+version: 1.07

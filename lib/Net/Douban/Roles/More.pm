@@ -1,6 +1,7 @@
 package Net::Douban::Roles::More;
+
 BEGIN {
-  $Net::Douban::Roles::More::VERSION = '1.06_1';
+    $Net::Douban::Roles::More::VERSION = '1.07';
 }
 
 use Carp qw/carp croak/;
@@ -11,65 +12,22 @@ with 'Net::Douban::Roles';
 
 has 'base_url' => (
     is      => 'rw',
+    isa     => 'Url',
     default => 'http://api.douban.com',
 );
 
 has 'user_url' => (
     is      => 'rw',
+    isa     => 'Url',
     default => 'http://api.douban.com/people',
 );
-
-#has 'collection_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/collection',
-#);
-
-#has 'subject_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/subject',
-#);
-
-#has 'review_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/review',
-#);
-
-#has 'miniblog_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/miniblog',
-#);
-#
-#has 'note_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/note',
-#);
-
-#has 'event_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/event',
-#);
-#
-#has 'recommendation_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/recommendation',
-#);
-#
-#has 'doumail_url' => (
-#    is      => 'ro',
-#    default => "http://api.douban.com/doumail",
-#);
-#
-#has 'token_url' => (
-#    is      => 'ro',
-#    default => 'http://api.douban.com/access_token',
-#);
 
 sub get {
     my $self = shift;
     my $url  = shift;
     my %args = @_;
     my $response;
-    if ($self->oauth) {
+    if ($self->has_oauth) {
         $url = $self->build_url($url, %args);
         $response = $self->oauth->get($url) or croak $!;
     } else {
@@ -84,7 +42,7 @@ sub get {
 
 sub post {
     my ($self, $url, %args) = @_;
-    if ($self->oauth) {
+    if ($self->has_oauth) {
         my $response;
         if ($args{xml}) {
             $response =
@@ -104,7 +62,7 @@ sub post {
 
 sub put {
     my ($self, $url, %args) = @_;
-    if ($self->oauth) {
+    if ($self->has_oauth) {
         my $response =
           $self->oauth->put($url, $args{xml},
             ['Content-Type' => q{application/atom+xml}],
@@ -118,7 +76,7 @@ sub put {
 
 sub delete {
     my ($self, $url, %args) = @_;
-    if ($self->oauth) {
+    if ($self->has_oauth) {
         my $response = $self->oauth->delete($url,) or croak $!;
         croak $response->status_line unless $response->is_success;
         return $response;
@@ -133,6 +91,7 @@ sub build_url {
     my %args = @_;
     my $mark = $url =~ /\?/ ? '&' : '?';
     while (my ($key, $value) = each %args) {
+        $key =~ s/-/_/g;
         $url .= $mark . "$key=$value";
         $mark = '&';
     }

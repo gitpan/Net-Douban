@@ -24,12 +24,13 @@ my %WriteMakefileArgs = (
     'HTTP::Request::Common' => '0',
     'LWP::UserAgent' => '0',
     'Moose' => '0',
+    'MooseX::StrictConstructor' => '0',
     'Net::OAuth' => '0',
     'Scalar::Util' => '0',
     'Test::More' => '0',
     'XML::Atom' => '0.35'
   },
-  'VERSION' => '1.06_1',
+  'VERSION' => '1.07',
   'test' => {
     'TESTS' => 't/*.t'
   }

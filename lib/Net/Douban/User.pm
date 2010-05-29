@@ -1,20 +1,16 @@
 package Net::Douban::User;
+
 BEGIN {
-  $Net::Douban::User::VERSION = '1.06_1';
+    $Net::Douban::User::VERSION = '1.07';
 }
 
 use Moose;
+with 'Net::Douban::Roles::More';
 use Net::Douban::Atom;
 use Carp qw/carp croak/;
-with 'Net::Douban::Roles::More';
+use MooseX::StrictConstructor;
 
 has 'userID' => (is => 'rw', isa => 'Str',);
-has 'user_url' => (
-    is      => 'rw',
-    isa     => 'Str',
-    lazy    => 1,
-    default => sub {shift->base_url . '/people'},
-);
 
 sub get_user {
     my ($self, %args) = @_;
@@ -64,7 +60,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.06_1
+version 1.07
 
 =head1 SYNOPSIS
 
@@ -80,12 +76,15 @@ version 1.06_1
 	$atom = $user->get_user;
 	$atom = $user->get_friends;
 	$atom = $user->get_contacts;
+    $atom = $user->search(q => 'douban', start_index => 5, max_results => 10);
 
 =head1 DESCRIPTION
 
 Interface to douban.com API User section
 
 =head1 METHODS
+
+Those methods return a Net::Douban::Atom object which can be use to get data conveniently
 
 =over
 
@@ -103,7 +102,7 @@ Interface to douban.com API User section
 
 =head1 SEE ALSO
 
-L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> B<douban.com/service/apidoc>
+L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> B<http://www.douban.com/service/apidoc/reference/user>
 
 =head1 AUTHOR
 

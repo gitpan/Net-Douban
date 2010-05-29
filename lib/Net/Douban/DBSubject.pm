@@ -1,9 +1,11 @@
 package Net::Douban::DBSubject;
+
 BEGIN {
-  $Net::Douban::DBSubject::VERSION = '1.06_1';
+    $Net::Douban::DBSubject::VERSION = '1.07';
 }
 
 use Moose;
+use MooseX::StrictConstructor;
 extends 'Net::Douban::Entry';
 
 sub BUILD {

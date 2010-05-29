@@ -1,9 +1,12 @@
 package Net::Douban::Tag;
+
 BEGIN {
-  $Net::Douban::Tag::VERSION = '1.06_1';
+    $Net::Douban::Tag::VERSION = '1.07';
 }
 
 use Moose;
+use MooseX::StrictConstructor;
+use Net::Douban::Atom;
 use Carp qw/carp croak/;
 with 'Net::Douban::Roles::More';
 
