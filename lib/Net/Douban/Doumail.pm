@@ -1,7 +1,7 @@
 package Net::Douban::Doumail;
 
 BEGIN {
-    $Net::Douban::Doumail::VERSION = '1.07';
+    $Net::Douban::Doumail::VERSION = '1.07_1';
 }
 
 use Moose;
@@ -97,12 +97,12 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
 
 	use Net::Douban::Doumail;
-	my $user = Net::Douban::Doumail->new(
+	my $mail= Net::Douban::Doumail->new(
         ...
 	);
 
@@ -136,7 +136,7 @@ Interface to douban.com API  mail section
 
 =head1 SEE ALSO
 
-L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> L<http//douban.com/service/apidoc/reference/douamil>
+L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> L<http://douban.com/service/apidoc/reference/douamil>
 
 =head1 AUTHOR
 

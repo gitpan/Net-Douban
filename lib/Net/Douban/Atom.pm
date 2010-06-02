@@ -1,7 +1,7 @@
 package Net::Douban::Atom;
 
 BEGIN {
-    $Net::Douban::Atom::VERSION = '1.07';
+    $Net::Douban::Atom::VERSION = '1.07_1';
 }
 
 use Moose;
@@ -143,7 +143,7 @@ Net::Douban::Atom - Atom parser
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
 	
@@ -182,7 +182,7 @@ XML::Atom::Base::get的重载，当没有NS给出时，尽量‘聪明的’猜�
 
 =item B<search_info>
 
-	$feed->searchInfo();
+	$feed->search_info();
 
 返回搜索结果的信息	
 

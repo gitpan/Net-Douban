@@ -1,7 +1,7 @@
 package Net::Douban::Collection;
 
 BEGIN {
-    $Net::Douban::Collection::VERSION = '1.07';
+    $Net::Douban::Collection::VERSION = '1.07_1';
 }
 
 use Moose;
@@ -74,12 +74,12 @@ __END__
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
 
 	use Net::Douban::Collection;
-	my $user = Net::Douban::Collection->new(
+	my $coll = Net::Douban::Collection->new(
         
 		collectionID => '....',
         # or

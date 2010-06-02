@@ -1,7 +1,7 @@
 package Net::Douban::Note;
 
 BEGIN {
-    $Net::Douban::Note::VERSION = '1.07';
+    $Net::Douban::Note::VERSION = '1.07_1';
 }
 
 use Moose;
@@ -66,11 +66,11 @@ __END__
 
 =head1 NAME
 
-Net::Douban::Note;
+Net::Douban::Note
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
 

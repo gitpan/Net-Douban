@@ -1,7 +1,7 @@
 package Net::Douban::DBSubject;
 
 BEGIN {
-    $Net::Douban::DBSubject::VERSION = '1.07';
+    $Net::Douban::DBSubject::VERSION = '1.07_1';
 }
 
 use Moose;

@@ -1,7 +1,7 @@
 package Net::Douban::User;
 
 BEGIN {
-    $Net::Douban::User::VERSION = '1.07';
+    $Net::Douban::User::VERSION = '1.07_1';
 }
 
 use Moose;
@@ -60,7 +60,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
 

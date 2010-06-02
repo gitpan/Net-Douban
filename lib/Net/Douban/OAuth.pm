@@ -1,14 +1,14 @@
 package Net::Douban::OAuth;
 
 BEGIN {
-    $Net::Douban::OAuth::VERSION = '1.07';
+    $Net::Douban::OAuth::VERSION = '1.07_1';
 }
 
 use Moose;
 use Carp qw/carp croak/;
 use Net::Douban::OAuth::Consumer;
 
-has 'comsumer_key' => (
+has 'consumer_key' => (
     is  => 'ro',
     isa => 'Str',
 );
@@ -20,23 +20,44 @@ has 'consumer_secret' => (
 
 has 'consumer' => (
     is      => 'rw',
+    lazy    => 1,
     default => \&_build_consumer,
 );
 
 has 'site' => (
     is      => 'rw',
-    isa     => 'Str',
+    isa     => 'Maybe[Str]',
     default => 'http://www.douban.com',
 );
 
 has 'request_token_path' => (
     is      => 'rw',
+    isa     => 'Maybe[Str]',
     default => '/service/auth/request_token',
+);
+
+has 'authorize_path' => (
+    is      => 'rw',
+    isa     => 'Maybe[Str]',
+    default => '/service/auth/authorize',
 );
 
 has 'access_token_path' => (
     is      => 'rw',
+    isa     => 'Maybe[Str]',
     default => '/service/auth/access_token',
+);
+
+has 'authorize_url' => (
+    is       => 'rw',
+    isa      => 'Maybe[Str]',
+    init_arg => undef,
+);
+
+has 'callback_url' => (
+    is        => 'rw',
+    isa       => 'Maybe[Str]',
+    predicate => 'has_callback',
 );
 
 sub _build_consumer {
@@ -52,24 +73,33 @@ sub _build_consumer {
     );
 }
 
-around 'BUILDARGS' => sub {
-    my $orig = shift;
-    my $self = shift;
-    my %args = @_;
+sub BUILD {
+    my ($self, $arg) = @_;
+    my %args = %{$arg};
 
     if (   $args{access_token}
         || $args{access_token_secret}
         || $args{request_token}
         || $args{request_token_secret})
     {
+        $args{request_token_path} ||= $self->request_token_path;
+        $args{access_token_path}  ||= $self->access_token_path;
+        $args{site}               ||= $self->site;
         my $consumer = Net::Douban::OAuth::Consumer->new(%args);
-        return $self->$orig(@_, consumer => $consumer);
+        $self->consumer($consumer);
     }
-    return $self->$orig(@_);
-};
+}
 
 sub request_token {
-    shift->consumer->get_request_token;
+    my $self = shift;
+    $self->consumer->get_request_token;
+    my $url =
+        $self->site
+      . $self->authorize_path
+      . '?oauth_token='
+      . $self->consumer->request_token;
+    $url .= '&oauth_callback=' . $self->callback_url if $self->has_callback;
+    $self->authorize_url($url);
 }
 
 sub access_token {
@@ -153,21 +183,20 @@ __END__
 
 =head1 VERSION
 
-version 1.07
+version 1.07_1
 
 =head1 SYNOPSIS
     
     my $oauth = Net::Douban::OAuth->new(
         consumer_key => ,
         consumer_secret => ,
-        site => ,
-        request_token_path => ,
-        access_token_path =>, 
     );
 
+    $oauth->callback_url($url);
     $oauth->request_token;
-    $oauth->access_token;
-
+    print $oauth->authorize_url; # paste this url to your user
+    $oauth->access_token; # now this object is authorized 
+    $agent = Net::Douban->new(oauth => $oauth);
 
 =head1 DESCRIPTION
     
@@ -200,7 +229,7 @@ get access_token into $oauth->consumer
 
 =head1 SEE ALSO
     
-L<Net::Douban> L<Moose> L<Net::OAuth> L<http://douban.com/service/apidoc>
+L<Net::Douban> L<Moose> L<Net::OAuth> L<http://douban.com/service/apidoc/auth>
 
 =head1 AUTHOR
 
