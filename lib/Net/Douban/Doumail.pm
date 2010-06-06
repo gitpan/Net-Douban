@@ -1,7 +1,7 @@
 package Net::Douban::Doumail;
 
 BEGIN {
-    $Net::Douban::Doumail::VERSION = '1.07_1';
+    $Net::Douban::Doumail::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -97,7 +97,7 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 

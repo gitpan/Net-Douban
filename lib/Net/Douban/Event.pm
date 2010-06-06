@@ -1,7 +1,7 @@
 package Net::Douban::Event;
 
 BEGIN {
-    $Net::Douban::Event::VERSION = '1.07_1';
+    $Net::Douban::Event::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -148,7 +148,7 @@ Net::Douban::Event
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 

@@ -1,7 +1,7 @@
 package Net::Douban::Tag;
 
 BEGIN {
-    $Net::Douban::Tag::VERSION = '1.07_1';
+    $Net::Douban::Tag::VERSION = '1.07_2';
 }
 
 use Moose;

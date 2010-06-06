@@ -1,7 +1,7 @@
 package Net::Douban::Token;
 
 BEGIN {
-    $Net::Douban::Token::VERSION = '1.07_1';
+    $Net::Douban::Token::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -74,6 +74,6 @@ __END__
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =cut

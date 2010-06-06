@@ -1,7 +1,7 @@
 package Net::Douban::Subject;
 
 BEGIN {
-    $Net::Douban::Subject::VERSION = '1.07_1';
+    $Net::Douban::Subject::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -97,7 +97,7 @@ Net::Douban::Subject
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 

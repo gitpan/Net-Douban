@@ -1,7 +1,7 @@
 package Net::Douban::Miniblog;
 
 BEGIN {
-    $Net::Douban::Miniblog::VERSION = '1.07_1';
+    $Net::Douban::Miniblog::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -79,7 +79,7 @@ Net::Douban::Miniblog
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 

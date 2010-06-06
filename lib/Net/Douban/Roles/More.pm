@@ -1,7 +1,7 @@
 package Net::Douban::Roles::More;
 
 BEGIN {
-    $Net::Douban::Roles::More::VERSION = '1.07_1';
+    $Net::Douban::Roles::More::VERSION = '1.07_2';
 }
 
 use Carp qw/carp croak/;

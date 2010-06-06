@@ -1,7 +1,7 @@
 package Net::Douban::Atom;
 
 BEGIN {
-    $Net::Douban::Atom::VERSION = '1.07_1';
+    $Net::Douban::Atom::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -143,7 +143,7 @@ Net::Douban::Atom - Atom parser
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 	

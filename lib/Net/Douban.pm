@@ -1,7 +1,7 @@
 package Net::Douban;
 
 BEGIN {
-    $Net::Douban::VERSION = '1.07_1';
+    $Net::Douban::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -55,7 +55,7 @@ Net::Douban - Perl client for douban.com
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
     

@@ -1,7 +1,7 @@
 package Net::Douban::Collection;
 
 BEGIN {
-    $Net::Douban::Collection::VERSION = '1.07_1';
+    $Net::Douban::Collection::VERSION = '1.07_2';
 }
 
 use Moose;
@@ -74,7 +74,7 @@ __END__
 
 =head1 VERSION
 
-version 1.07_1
+version 1.07_2
 
 =head1 SYNOPSIS
 
