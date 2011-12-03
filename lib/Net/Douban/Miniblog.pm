@@ -1,72 +1,62 @@
 package Net::Douban::Miniblog;
-
-BEGIN {
-    $Net::Douban::Miniblog::VERSION = '1.07_2';
+{
+    $Net::Douban::Miniblog::VERSION = '1.09';
 }
 
-use Moose;
-use MooseX::StrictConstructor;
-use Net::Douban::Atom;
+use Moose::Role;
 use Carp qw/carp croak/;
-with 'Net::Douban::Roles::More';
+use namespace::autoclean;
+use Net::Douban::Utils;
 
-has 'miniblogID' => (
-    is  => 'rw',
-    isa => 'Str',
+our %api_hash = (
+    get_user_miniblog => {
+        has_url_param => 'userID',
+        path          => '/people/{userID}/miniblog',
+        method        => 'GET',
+    },
+
+    get_contact_miniblog => {
+        has_url_param => 'userID',
+        path          => '/people/{userID}/miniblog/contacts',
+        method        => 'GET',
+    },
+
+    post_miniblog => {
+        path           => '/miniblog/saying',
+        method         => 'POST',
+        content_params => ['content'],
+        content        => <<'EOF',
+PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5IHhtbG5zOm5zMD0i
+aHR0cDovL3d3dy53My5vcmcvMjAwNS9BdG9tIiB4bWxuczpkYj0iaHR0cDovL3d3dy5kb3ViYW4u
+Y29tL3htbG5zLyI+IDxjb250ZW50Pntjb250ZW50fTwvY29udGVudD4gPC9lbnRyeT4K
+EOF
+    },
+
+    delete_miniblog => {
+        has_url_param => 'miniblogID',
+        path          => '/miniblog/{miniblogID}',
+        method        => 'DELETE',
+    },
+
+    get_miniblog_comments => {
+        has_url_param => 'miniblogID',
+        path          => '/miniblog/{miniblogID}/comments',
+        method        => 'POST',
+    },
+
+    post_miniblog_comment => {
+        has_url_param  => 'miniblogID',
+        path           => '/miniblog/{miniblogID}/comments',
+        method         => 'POST',
+        content_params => ['content'],
+        content        => <<'EOF',
+PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5PiA8Y29udGVudD57
+Y29udGVudH08L2NvbnRlbnQ+IDwvZW50cnk+IAo=
+EOF
+    },
 );
 
-has 'miniblog_url' => (
-    is      => 'rw',
-    isa     => 'Url',
-    lazy    => 1,
-    default => sub { shift->base_url . '/miniblog' }
-);
-
-sub get_user_miniblog {
-    my ($self, %args) = @_;
-    my $uid = delete $args{userID} or croak "userID needed";
-    return Net::Douban::Atom->new(
-        $self->get($self->user_url . "/$uid/miniblog", %args));
-}
-
-sub get_contact_miniblog {
-    my ($self, %args) = @_;
-    my $uid = delete $args{userID} or croak "userID needed";
-    return Net::Douban::Atom->new(
-        $self->get($self->user_url . "/$uid/miniblog/contacts", %args));
-}
-
-sub post_saying {
-    my ($self, %args) = @_;
-    croak "post xml needed!" unless exists $args{xml};
-    return $self->post($self->miniblog_url . "/saying", %args);
-}
-
-sub delete_miniblog {
-    my ($self, %args) = @_;
-    $args{miniblogID} ||= $self->miniblogID;
-    croak "miniblogID needed!" unless exists $args{miniblogID};
-    return $self->delete($self->miniblog_url . "/$args{miniblogID}");
-}
-
-sub get_reply {
-    my ($self, %args) = @_;
-    $args{miniblogID} ||= $self->miniblogID;
-    croak "miniblogID needed!" unless exists $args{miniblogID};
-    return Net::Douban::Atom->new(
-        $self->get($self->miniblog_url . "/$args{miniblogID}/" . "comments"));
-}
-
-sub post_reply {
-    my ($self, %args) = @_;
-    $args{miniblogID} ||= $self->miniblogID;
-    my $mid = delete $args{miniblogID} or croak "miniblogID needed!";
-    croak "post xml needed!" unless exists $args{xml};
-    return $self->post($self->miniblog_url . "/$mid/comments", %args);
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -79,19 +69,11 @@ Net::Douban::Miniblog
 
 =head1 VERSION
 
-version 1.07_2
+version 1.09
 
 =head1 SYNOPSIS
 
-	use Net::Douban::Miniblog;
-	$miniblog = Net::Douban::Miniblog->new(
-		apikey => '....',
-        # or
-        oauth => $consumer,
-	);
-
-	$atom = $miniblog->get_user_miniblog(userID => 'Net-Douban');
-	$atom = $miniblog->get_contact_miniblog(userID => 'Net-Douban');
+    my $c = Net::Douban->init(Roles => 'Miniblog');
 
 =head1 DESCRIPTION
 
@@ -99,35 +81,46 @@ Interface to douban.com API Miniblog section
 
 =head1 METHODS
 
-Those methods return a Net::Douban::Atom object which can be use to get data conveniently
-
 =over
 
 =item B<get_user_miniblog>
 
+argument:   userID
+
 =item B<get_contact_miniblog>
 
-=item B<post_saying>
+argument:   userID
+
+=item B<post_miniblog>
+
+argument:   content 
 
 =item B<delete_miniblog>
 
-=item B<get_reply>
+argument:   miniblogID 
 
-=item B<post_reply>
+=item B<get_miniblog_comments>
+
+argument:   miniblogID 
+
+=item B<post_miniblog_comment>
+
+argument:  ['miniblogID', 'content']
 
 =back
 
 =head1 SEE ALSO
 
-L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> B<http://www.douban.com/service/apidoc/reference/miniblog>
+L<Net::Douban> L<Net::Douban::Gift> L<Moose>
+L<http://www.douban.com/service/apidoc/reference/collection>
 
 =head1 AUTHOR
 
-woosley.xu<redicaps@gmail.com>
+woosley.xu <woosley.xu@gmail.com>
 
 =head1 COPYRIGHT
 	
-Copyright (C) 2010 by Woosley.Xu
+Copyright (C) 2010 - 2011 by Woosley.Xu
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.0 or,

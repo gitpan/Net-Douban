@@ -1,82 +1,71 @@
 package Net::Douban::Recommendation;
-
-BEGIN {
-    $Net::Douban::Recommendation::VERSION = '1.07_2';
+{
+    $Net::Douban::Recommendation::VERSION = '1.09';
 }
 
-use Moose;
-use MooseX::StrictConstructor;
-use Net::Douban::Atom;
+use Moose::Role;
 use Carp qw/carp croak/;
-with 'Net::Douban::Roles::More';
+use namespace::autoclean;
+use Net::Douban::Utils;
 
-has 'recomID' => (
-    is  => 'rw',
-    isa => 'Str',
+our %api_hash = (
+    get_recom => {
+        path          => '/recommendation/{recomID}',
+        has_url_param => 1,
+        method        => 'GET',
+    },
+
+    get_user_recom => {
+        path          => '/people/{userID}/recommendations',
+        has_url_param => 1,
+        method        => 'GET',
+    },
+
+    get_recom_comments => {
+        path          => '/recommendation/{recomID}/comments',
+        has_url_param => 1,
+        method        => 'GET',
+    },
+
+    post_recom => {
+        path           => '/recommendations',
+        method         => 'POST',
+        content_params => [ 'title', 'comment', 'link' ],
+        content        => <<'EOF',
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
+Oi8vd3d3LnczLm9yZy8yMDA1L0F0b20iIHhtbG5zOmdkPSJodHRwOi8vc2NoZW1hcy5nb29nbGUu
+Y29tL2cvMjAwNSIgeG1sbnM6b3BlbnNlYXJjaD0iaHR0cDovL2E5LmNvbS8tL3NwZWMvb3BlbnNl
+YXJjaHJzcy8xLjAvIiB4bWxuczpkYj0iaHR0cDovL3d3dy5kb3ViYW4uY29tL3htbG5zLyI+IDx0
+aXRsZT57dGl0bGV9PC90aXRsZT4gPGRiOmF0dHJpYnV0ZSBuYW1lPSJjb21tZW50Ij57Y29tbWVu
+dH08L2RiOmF0dHJpYnV0ZT4gPGxpbmsgaHJlZj0ie2xpbmt9IiByZWw9InJlbGF0ZWQiIC8+PC9l
+bnRyeT4gCg==
+EOF
+    },
+
+    delete_recom => {
+        path          => '/recommendation/{recomID}',
+        method        => 'DELETE',
+        has_url_param => 1,
+    },
+
+    post_comment => {
+        path           => '/recommendation/{recomID}/comments',
+        method         => 'POST',
+        has_url_param  => 1,
+        content_params => ['content'],
+        content        => <<'EOF',
+PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5PiA8Y29udGVudD57
+Y29udGVudH08L2NvbnRlbnQ+IDwvZW50cnk+IAo=
+EOF
+    },
+    delete_comment => {
+        path          => '/recommendation/{recomID}/comment/{commentID}/',
+        has_url_param => 1,
+        method        => 'DELETE',
+    },
 );
 
-has 'recom_url' => (
-    is      => 'rw',
-    isa     => 'Url',
-    lazy    => 1,
-    default => sub { shift->base_url . '/recommendation' },
-);
-
-sub get_recom {
-    my ($self, %args) = @_;
-    $args{recomID} ||= $self->recomID;
-    croak "recomID needed!" unless exists $args{recomID};
-    return Net::Douban::Atom->new(
-        $self->get($self->recom_url . "/$args{recomID}"));
-}
-
-sub get_comments {
-    my ($self, %args) = @_;
-    $args{recomID} ||= $self->recomID;
-    croak "recomID needed!" unless $args{recomID};
-    return Net::Douban::Atom->new(
-        $self->get($self->recom_url . "/$args{recomID}/comments"));
-}
-
-sub get_user_recom {
-    my ($self, %args) = @_;
-    my $uid = delete $args{userID} or croak "userID needed";
-    return Net::Douban::Atom->new(
-        $self->get($self->user_url . "/$uid/recommendations", %args));
-}
-
-sub post_recom {
-    my ($self, %args) = @_;
-    croak "post xml needed!" unless exists $args{xml};
-    return $self->post($self->recom_url . "s", xml => $args{xml});
-}
-
-sub delete_recom {
-    my ($self, %args) = @_;
-    $args{recomID} ||= $self->recomID;
-    croak "recomID needed!" unless $args{recomID};
-    return $self->delete($self->recom_url . "/$args{recomID}");
-}
-
-sub post_comment {
-    my ($self, %args) = @_;
-    croak "post xml needed!" unless exists $args{xml};
-    $args{recomID} ||= $self->recomID;
-    croak "recomID needed!" unless $args{recomID};
-    return $self->post($self->recom_url . "/$args{recomID}/comments",
-        xml => $args{xml});
-}
-
-sub delete_comment {
-    my ($self, %args) = @_;
-    $args{recomID} ||= $self->recomID;
-    croak "commentID needed!" unless exists $args{commentID};
-    return $self->delete(
-        $self->recom_url . "/$args{recomID}/comment/$args{commentID}");
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -89,19 +78,11 @@ Net::Douban::Recommendation
 
 =head1 VERSION
 
-version 1.07_2
+version 1.09
 
 =head1 SYNOPSIS
 
-	use Net::Douban::Recommendation;
-	my $recom = Net::Douban::Recommendation->new(
-		apikey => '....',
-        # or
-        oauth => $consumer,
-	);
-
-	$atom = $recom->get_recom(recomID => ...);
-	$atom = $event->get_user_recom(userID => ...);
+    my $c = Net::Douban->init(Roles => 'Recommendation');
 
 =head1 DESCRIPTION
 
@@ -109,37 +90,50 @@ Interface to douban.com API Event section
 
 =head1 METHODS
 
-Most of the get methods return a Net::Douban::Atom object which can be use to get data conveniently
-
 =over
 
 =item B<get_recom>
 
-=item B<get_comments>
+argument:   recomID
 
 =item B<get_user_recom>
 
+argument:   userID 
+
+=item B<get_recom_comments >
+
+argument:   recomID 
+
 =item B<post_recom>
+
+arguments:  ['title', 'comment', 'link'],
 
 =item B<delete_recom>
 
+argument:   recomID 
+
 =item B<post_comment>
 
+argument:   recomID, content
+
 =item B<delete_comment>
+
+argument:   recomID, commentID
 
 =back
 
 =head1 SEE ALSO
 
-L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> B<http://www.douban.com/service/apidoc/reference/recommendation>
+L<Net::Douban> L<Net::Douban::Gift> L<Moose>
+L<http://www.douban.com/service/apidoc/reference/recommendation>
 
 =head1 AUTHOR
 
-woosley.xu<redicaps@gmail.com>
+woosley.xu <woosley.xu@gmail.com>
 
 =head1 COPYRIGHT
 	
-Copyright (C) 2010 by Woosley.Xu
+Copyright (C) 2010 - 2011 by Woosley.Xu
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.0 or,

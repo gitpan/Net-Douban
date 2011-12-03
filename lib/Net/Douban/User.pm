@@ -1,53 +1,35 @@
 package Net::Douban::User;
-
-BEGIN {
-    $Net::Douban::User::VERSION = '1.07_2';
+{
+    $Net::Douban::User::VERSION = '1.09';
 }
 
-use Moose;
-with 'Net::Douban::Roles::More';
-use Net::Douban::Atom;
+use Moose::Role;
 use Carp qw/carp croak/;
-use MooseX::StrictConstructor;
+use Net::Douban::Utils;
+use namespace::autoclean;
 
-has 'userID' => (is => 'rw', isa => 'Str',);
+our %api_hash = (
+    get_user => {
+        has_url_param => 'userID',
+        path          => '/people/{userID}',
+        method        => 'GET'
+    },
+    get_user_contacts => {
+        has_url_param => 'userID',
+        path          => '/people/{userID}/contacts',
+        method        => 'GET',
+    },
+    get_user_friends => {
+        has_url_param => 'userID',
+        path          => '/people/{userID}/friends',
+        method        => 'GET',
+    },
+    search_user => { params => 'q', path => '/people', method => 'GET' },
+    me => { path => '/people/%40me', method => 'GET' },
+);
 
-sub get_user {
-    my ($self, %args) = @_;
-    my $userID = $args{userID} || $self->userID;
-    croak "no userId found!" unless $userID;
-    return Net::Douban::Atom->new($self->get($self->user_url . "/$userID"));
-}
+_build_method( __PACKAGE__, %api_hash );
 
-sub search {
-    my ($self, %args) = @_;
-    croak "no query found in the parameters" unless exists $args{q};
-    return Net::Douban::Atom->new($self->get($self->user_url, %args));
-}
-
-sub get_auth_user {
-    my ($self, %args) = @_;
-    return Net::Douban::Atom->new($self->get($self->user_url . '/%40me'));
-}
-
-sub get_contacts {
-    my ($self, %args) = @_;
-    my $userID = delete $args{userID} || $self->userID;
-    croak "no userId found!" unless $userID;
-    return Net::Douban::Atom->new(
-        $self->get($self->user_url . "/$userID/contacts", %args));
-}
-
-sub get_friends {
-    my ($self, %args) = @_;
-    my $userID = delete $args{userID} || $self->userID;
-    croak "no userId found!" unless $userID;
-    return Net::Douban::Atom->new(
-        $self->get($self->user_url . "/$userID/friends", %args));
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__
@@ -60,57 +42,50 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.07_2
+version 1.09
 
 =head1 SYNOPSIS
 
-	use Net::Douban::User;
-	my $user = Net::Douban::User->new(
-		userID => 'Net-Douban',
-		apikey => '....',
-        # or
-        oauth => $consumer,
-	);
-	$user->userID('abei');
-
-	$atom = $user->get_user;
-	$atom = $user->get_friends;
-	$atom = $user->get_contacts;
-    $atom = $user->search(q => 'douban', start_index => 5, max_results => 10);
-
+    my $c = Net::Douban->new('Roles' => 'User');
+    
 =head1 DESCRIPTION
 
 Interface to douban.com API User section
 
 =head1 METHODS
 
-Those methods return a Net::Douban::Atom object which can be use to get data conveniently
-
 =over
 
 =item B<get_user>
 
-=item B<get_contacts>
+argument:   userID
+=item B<get_user_contacts>
 
-=item B<get_friends>
+argument:   userID
 
-=item B<get_auth_user>
+=item B<get_user_friends>
 
-=item B<search>
+argument:   userID
+
+=item B<search_user>
+
+argument:   userID
+
+=item B<me>
 
 =back
 
 =head1 SEE ALSO
 
-L<Net::Douban> L<Net::Douban::Atom> L<Moose> L<XML::Atom> B<http://www.douban.com/service/apidoc/reference/user>
+L<Net::Douban> L<Moose> B<http://www.douban.com/service/apidoc/reference/user>
 
 =head1 AUTHOR
 
-woosley.xu<redicaps@gmail.com>
+woosley.xu C<woosley.xu@gmail.com>
 
 =head1 COPYRIGHT
 	
-Copyright (C) 2010 by Woosley.Xu
+Copyright (C) 2010 - 2011 by Woosley.Xu
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.0 or,

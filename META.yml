@@ -4,9 +4,9 @@ author:
   - woosley.xu
 build_requires: {}
 configure_requires:
-  ExtUtils::MakeMaker: 6.31
+  ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 3.101421, CPAN::Meta::Converter version 2.101410'
+generated_by: 'Dist::Zilla version 4.300003, CPAN::Meta::Converter version 2.112150'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,13 +15,12 @@ name: Net-Douban
 requires:
   HTTP::Request: 0
   HTTP::Request::Common: 0
+  JSON::Any: 1.29
   LWP::UserAgent: 0
-  Moose: 0
-  MooseX::StrictConstructor: 0
+  Moose: 2.0007
+  MooseX::StrictConstructor: 0.16
+  MooseX::Traits: 0
   Net::OAuth: 0
   Scalar::Util: 0
   Test::More: 0
-  XML::Atom: 0.35
-resources:
-  repository: http://github.com/woosley/Perl-Net-Douban
-version: 1.07_2
+version: 1.09

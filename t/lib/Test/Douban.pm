@@ -54,7 +54,7 @@ sub consumer {
     my $urls       = pdurls;
     require Net::Douban::OAuth;
     my $oauth =
-      Net::Douban::OAuth->new(%{$all_tokens}, %{$urls}, authorized => 1,);
+      Net::Douban::OAuth->new( %{$all_tokens}, %{$urls}, authorized => 1, );
     return $oauth;
 }
 
