@@ -1,6 +1,6 @@
 package Net::Douban::OAuth;
 {
-    $Net::Douban::OAuth::VERSION = '1.10';
+    $Net::Douban::OAuth::VERSION = '1.11';
 }
 use Moose::Role;
 use Carp qw/carp croak/;
@@ -162,7 +162,7 @@ Net::Douban::OAuth - OAuth for Net::Douban
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

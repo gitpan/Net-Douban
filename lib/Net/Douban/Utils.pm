@@ -1,6 +1,6 @@
 package Net::Douban::Utils;
 {
-    $Net::Douban::Utils::VERSION = '1.10';
+    $Net::Douban::Utils::VERSION = '1.11';
 }
 
 use Carp qw/carp croak/;
@@ -86,7 +86,7 @@ Net::Douban::Utils - Utils for Net::Douban
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

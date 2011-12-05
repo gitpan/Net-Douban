@@ -1,6 +1,6 @@
 package Net::Douban::Collection;
 {
-    $Net::Douban::Collection::VERSION = '1.10';
+    $Net::Douban::Collection::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -97,7 +97,7 @@ __END__
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
     

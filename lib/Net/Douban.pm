@@ -1,6 +1,6 @@
 package Net::Douban;
 {
-    $Net::Douban::VERSION = '1.10';
+    $Net::Douban::VERSION = '1.11';
 }
 use namespace::autoclean;
 use Moose;
@@ -69,7 +69,7 @@ Net::Douban - Perl client for douban.com
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
     

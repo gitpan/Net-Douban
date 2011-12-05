@@ -1,6 +1,6 @@
 package Net::Douban::Event;
 {
-    $Net::Douban::Event::VERSION = '1.10';
+    $Net::Douban::Event::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -116,7 +116,7 @@ Net::Douban::Event
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

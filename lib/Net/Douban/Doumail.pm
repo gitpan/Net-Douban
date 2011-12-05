@@ -1,6 +1,6 @@
 package Net::Douban::Doumail;
 {
-    $Net::Douban::Doumail::VERSION = '1.10';
+    $Net::Douban::Doumail::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -157,7 +157,7 @@ __END__
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

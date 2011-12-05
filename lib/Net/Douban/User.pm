@@ -1,6 +1,6 @@
 package Net::Douban::User;
 {
-    $Net::Douban::User::VERSION = '1.10';
+    $Net::Douban::User::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -27,9 +27,10 @@ our %api_hash = (
         method          => 'GET',
     },
     search_user => {
-        params => 'q',
-        path   => '/people',
-        method => 'GET' optional_params => [qw/start-index max-results/],
+        params          => 'q',
+        path            => '/people',
+        method          => 'GET',
+        optional_params => [qw/start-index max-results/],
     },
     me => {path => '/people/%40me', method => 'GET'},
 );
@@ -48,7 +49,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package Net::Douban::Note;
 {
-    $Net::Douban::Note::VERSION = '1.10';
+    $Net::Douban::Note::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -89,7 +89,7 @@ Net::Douban::Note
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 

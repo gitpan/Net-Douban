@@ -1,6 +1,6 @@
 package Net::Douban::Review;
 {
-    $Net::Douban::Review::VERSION = '1.10';
+    $Net::Douban::Review::VERSION = '1.11';
 }
 
 use Moose::Role;
@@ -98,7 +98,7 @@ Net::Douban::Review
 
 =head1 VERSION
 
-version 1.10
+version 1.11
 
 =head1 SYNOPSIS
 
