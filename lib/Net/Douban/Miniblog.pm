@@ -1,6 +1,6 @@
 package Net::Douban::Miniblog;
 {
-    $Net::Douban::Miniblog::VERSION = '1.09';
+    $Net::Douban::Miniblog::VERSION = '1.10';
 }
 
 use Moose::Role;
@@ -10,15 +10,17 @@ use Net::Douban::Utils;
 
 our %api_hash = (
     get_user_miniblog => {
-        has_url_param => 'userID',
-        path          => '/people/{userID}/miniblog',
-        method        => 'GET',
+        has_url_param   => 'userID',
+        path            => '/people/{userID}/miniblog',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
 
     get_contact_miniblog => {
-        has_url_param => 'userID',
-        path          => '/people/{userID}/miniblog/contacts',
-        method        => 'GET',
+        has_url_param   => 'userID',
+        path            => '/people/{userID}/miniblog/contacts',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
 
     post_miniblog => {
@@ -39,9 +41,10 @@ EOF
     },
 
     get_miniblog_comments => {
-        has_url_param => 'miniblogID',
-        path          => '/miniblog/{miniblogID}/comments',
-        method        => 'POST',
+        has_url_param   => 'miniblogID',
+        path            => '/miniblog/{miniblogID}/comments',
+        optional_params => [qw/start-index max-results/],
+        method          => 'POST',
     },
 
     post_miniblog_comment => {
@@ -56,7 +59,7 @@ EOF
     },
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 1;
 
 __END__
@@ -69,7 +72,7 @@ Net::Douban::Miniblog
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 

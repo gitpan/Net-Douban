@@ -1,6 +1,6 @@
 package Net::Douban::User;
 {
-    $Net::Douban::User::VERSION = '1.09';
+    $Net::Douban::User::VERSION = '1.10';
 }
 
 use Moose::Role;
@@ -15,20 +15,26 @@ our %api_hash = (
         method        => 'GET'
     },
     get_user_contacts => {
-        has_url_param => 'userID',
-        path          => '/people/{userID}/contacts',
-        method        => 'GET',
+        has_url_param   => 'userID',
+        path            => '/people/{userID}/contacts',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
     get_user_friends => {
-        has_url_param => 'userID',
-        path          => '/people/{userID}/friends',
-        method        => 'GET',
+        has_url_param   => 'userID',
+        path            => '/people/{userID}/friends',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
-    search_user => { params => 'q', path => '/people', method => 'GET' },
-    me => { path => '/people/%40me', method => 'GET' },
+    search_user => {
+        params => 'q',
+        path   => '/people',
+        method => 'GET' optional_params => [qw/start-index max-results/],
+    },
+    me => {path => '/people/%40me', method => 'GET'},
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 
 1;
 
@@ -42,7 +48,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 
@@ -81,7 +87,7 @@ L<Net::Douban> L<Moose> B<http://www.douban.com/service/apidoc/reference/user>
 
 =head1 AUTHOR
 
-woosley.xu C<woosley.xu@gmail.com>
+woosley.xu <woosley.xu@gmail.com>
 
 =head1 COPYRIGHT
 	

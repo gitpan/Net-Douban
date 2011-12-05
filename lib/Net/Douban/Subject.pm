@@ -1,6 +1,6 @@
 package Net::Douban::Subject;
 {
-    $Net::Douban::Subject::VERSION = '1.09';
+    $Net::Douban::Subject::VERSION = '1.10';
 }
 
 use Moose::Role;
@@ -10,13 +10,13 @@ use Net::Douban::Utils;
 
 our %api_hash = (
     get_book => {
-        path => [ '/book/subject/{subjectID}', '/book/subject/isbn/{isbnID}' ],
+        path => ['/book/subject/{subjectID}', '/book/subject/isbn/{isbnID}'],
         has_url_param => 1,
         method        => 'GET',
     },
     get_movie => {
         path =>
-          [ '/movie/subject/{subjectID}', '/movie/subject/imdb/{imdbID}' ],
+          ['/movie/subject/{subjectID}', '/movie/subject/imdb/{imdbID}'],
         has_url_param => 1,
         method        => 'GET',
     },
@@ -26,23 +26,26 @@ our %api_hash = (
         method        => 'GET',
     },
     search_music => {
-        path   => '/music/subjects',
-        params => [ 'q', 'tag' ],
-        method => 'GET',
+        path            => '/music/subjects',
+        optional_params => [qw/start-index max-results/],
+        params          => ['q', 'tag'],
+        method          => 'GET',
     },
     search_movie => {
-        path   => '/movie/subjects',
-        params => [ 'q', 'tag' ],
-        method => 'GET',
+        path            => '/movie/subjects',
+        params          => ['q', 'tag'],
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
     search_book => {
-        path   => '/book/subjects',
-        params => [ 'q', 'tag' ],
-        method => 'GET',
+        path            => '/book/subjects',
+        optional_params => [qw/start-index max-results/],
+        params          => ['q', 'tag'],
+        method          => 'GET',
     },
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 1;
 __END__
 
@@ -54,7 +57,7 @@ Net::Douban::Subject
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 

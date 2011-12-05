@@ -7,29 +7,28 @@ BEGIN {
     use_ok("Net::Douban");
 }
 
-my $review = Net::Douban->init( Roles => 'Review' );
-isa_ok( $review, 'Net::Douban' );
+my $review = Net::Douban->init(Roles => 'Review');
+isa_ok($review, 'Net::Douban');
 my %api_hash = %{Net::Douban::Review::api_hash};
 
-cmp_ok( scalar keys %api_hash, ">", 0, "api_hash defined" );
+cmp_ok(scalar keys %api_hash, ">", 0, "api_hash defined");
 
-can_ok( $review, keys %api_hash );
+can_ok($review, keys %api_hash);
 
 SKIP: {
     skip 'set $ENV{NETWORK_TEST} to enable network tests', 7
       unless $ENV{NETWORK_TEST};
-    $review->res_callback( sub { shift } );
-    $review->load_token( %{ pdakeys() } );
-    is( $review->get_review( reviewID => '1138468' )->is_success,
-        1, "get review" );
-    is( $review->get_user_review( userID => 'Net-Douban' )->is_success,
-        1, "get user review" );
-    is( $review->get_movie_review( subjectID => '1424406' )->is_success,
-        1, "get movie review by subjectID" );
-    is( $review->get_movie_review( imdbID => 'tt0213338' )->is_success,
-        1, "get movie review by imdbID" );
-    is(
-        $review->post_review(
+    $review->res_callback(sub {shift});
+    $review->load_token(%{pdakeys()});
+    is($review->get_review(reviewID => '1138468')->is_success,
+        1, "get review");
+    is($review->get_user_review(userID => 'Net-Douban')->is_success,
+        1, "get user review");
+    is($review->get_movie_review(subjectID => '1424406')->is_success,
+        1, "get movie review by subjectID");
+    is($review->get_movie_review(imdbID => 'tt0213338')->is_success,
+        1, "get movie review by imdbID");
+    is( $review->post_review(
             content   => 'wo, nice',
             rating    => 5,
             title     => 'this is a test review',
@@ -39,8 +38,7 @@ SKIP: {
         'post review'
     );
 
-    is(
-        $review->put_review(
+    is( $review->put_review(
             content   => 'wo, nice',
             rating    => 5,
             title     => 'this is a test review',
@@ -53,4 +51,3 @@ SKIP: {
     throws_ok { $review->put_review() } qr/Missing augument/,
       "Missing augument";
 }
-

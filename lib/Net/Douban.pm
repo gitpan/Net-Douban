@@ -1,6 +1,6 @@
 package Net::Douban;
 {
-    $Net::Douban::VERSION = '1.09';
+    $Net::Douban::VERSION = '1.10';
 }
 use namespace::autoclean;
 use Moose;
@@ -11,8 +11,8 @@ with 'MooseX::Traits';
 with "Net::Douban::Roles";
 
 has 'api_base' =>
-  ( is => 'ro', isa => 'Str', default => 'http://api.douban.com' );
-has 'realm' => ( is => 'ro', default => 'http://www.douban.com' );
+  (is => 'ro', isa => 'Str', default => 'http://api.douban.com');
+has 'realm' => (is => 'ro', default => 'http://www.douban.com');
 
 has '+request_url' => (
     is      => 'ro',
@@ -33,25 +33,22 @@ has '+authorize_url' => (
 sub init {
     my $class = shift;
     my %args  = @_;
-    if ( $args{Traits} && $args{Roles} ) {
+    if ($args{Traits} && $args{Roles}) {
         warn "Roles will be ignored when we have Traits";
     }
-    if ( $args{Traits} ) {
-        my @traits = ref $args{Traits} ? @{ $args{Traits} } : ( $args{Traits} );
+    if ($args{Traits}) {
+        my @traits = ref $args{Traits} ? @{$args{Traits}} : ($args{Traits});
         for my $t (@traits) {
-            if ( $t =~ s/^\+//g ) {
+            if ($t =~ s/^\+//g) {
                 $class = $class->with_traits($t);
-            }
-            else {
+            } else {
                 $class = $class->with_traits("Net::Douban::Traits::$t");
             }
         }
-    }
-    elsif ( $args{Roles} ) {
-        my @roles = ref $args{Roles} ? @{ $args{Roles} } : ( $args{Roles} );
+    } elsif ($args{Roles}) {
+        my @roles = ref $args{Roles} ? @{$args{Roles}} : ($args{Roles});
         $class = $class->with_traits("Net::Douban::$_") foreach @roles;
-    }
-    else {
+    } else {
         croak "Without Traits or Roles, I can not do anything";
     }
     delete $args{Roles};
@@ -72,7 +69,7 @@ Net::Douban - Perl client for douban.com
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
     
@@ -156,7 +153,7 @@ hash.
 =head2 Paging
 
 Paging is support by passing argments 'start-index' and 'max-results' to
-search functions.
+search and get functions.
 
 =head1 SEE ALSO
     
@@ -165,7 +162,7 @@ L<Net::Douban::Utils>
 
 =head1 AUTHOR
 
-woosley.xu C<woosley.xu@gmail.com>
+woosley.xu <woosley.xu@gmail.com>
 
 =head1 COPYRIGHT & LICENSE
 

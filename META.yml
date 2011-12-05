@@ -23,4 +23,6 @@ requires:
   Net::OAuth: 0
   Scalar::Util: 0
   Test::More: 0
-version: 1.09
+resources:
+  repository: git://github.com/woosley/Perl-Net-Douban.git
+version: 1.10

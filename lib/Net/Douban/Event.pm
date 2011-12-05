@@ -1,6 +1,6 @@
 package Net::Douban::Event;
 {
-    $Net::Douban::Event::VERSION = '1.09';
+    $Net::Douban::Event::VERSION = '1.10';
 }
 
 use Moose::Role;
@@ -16,60 +16,67 @@ our %api_hash = (
     },
 
     get_event_participants => {
-        path          => '/event/{eventID}/participants',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/event/{eventID}/participants',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_event_wishers => {
-        path          => '/event/{eventID}/wishers',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/event/{eventID}/wishers',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_user_events => {
-        path          => '/people/{userID}/events',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/people/{userID}/events',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_user_participates => {
-        path          => '/people/{userID}/events/participate',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/people/{userID}/events/participate',
+        has_url_param   => 1,
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
     },
 
     get_user_wishes => {
-        path          => '/people/{userID}/events/wish',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/people/{userID}/events/wish',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_user_initiates => {
-        path          => '/people/{userID}/events/initiate',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/people/{userID}/events/initiate',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_location_events => {
         path            => '/event/location/{locationID}',
+        optional_params => [qw/start-index max-results type/],
         has_url_param   => 1,
-        optional_params => ['type'],
         method          => 'GET',
     },
 
     search_events => {
-        path   => '/events',
-        params => [ 'q', 'location' ],
-        method => 'GET',
+        path            => '/events',
+        optional_params => [qw/start-index max-results/],
+        params          => ['q', 'location'],
+        method          => 'GET',
     },
 
-    # nothing but stupid to do post
-    #   post_event => {
-    #        path => '/events',
-    #        method => 'POST',
-    #        stupid => 1,
-    #    },
+# nothing but stupid to do post
+#   post_event => {
+#        path => '/events',
+#        method => 'POST',
+#        stupid => 1,
+#    },
 
     post_event_participant => {
         path          => '/event/{eventID}/participants',
@@ -96,7 +103,7 @@ our %api_hash = (
     },
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 1;
 
 __END__
@@ -109,7 +116,7 @@ Net::Douban::Event
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package Net::Douban::Recommendation;
 {
-    $Net::Douban::Recommendation::VERSION = '1.09';
+    $Net::Douban::Recommendation::VERSION = '1.10';
 }
 
 use Moose::Role;
@@ -16,21 +16,23 @@ our %api_hash = (
     },
 
     get_user_recom => {
-        path          => '/people/{userID}/recommendations',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/people/{userID}/recommendations',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     get_recom_comments => {
-        path          => '/recommendation/{recomID}/comments',
-        has_url_param => 1,
-        method        => 'GET',
+        path            => '/recommendation/{recomID}/comments',
+        optional_params => [qw/start-index max-results/],
+        has_url_param   => 1,
+        method          => 'GET',
     },
 
     post_recom => {
         path           => '/recommendations',
         method         => 'POST',
-        content_params => [ 'title', 'comment', 'link' ],
+        content_params => ['title', 'comment', 'link'],
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
 Oi8vd3d3LnczLm9yZy8yMDA1L0F0b20iIHhtbG5zOmdkPSJodHRwOi8vc2NoZW1hcy5nb29nbGUu
@@ -65,7 +67,7 @@ EOF
     },
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 1;
 
 __END__
@@ -78,7 +80,7 @@ Net::Douban::Recommendation
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 

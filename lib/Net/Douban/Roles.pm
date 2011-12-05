@@ -1,4 +1,7 @@
 package Net::Douban::Roles;
+{
+    $Net::Douban::Roles::VERSION = '1.10';
+}
 
 use Carp qw/carp croak/;
 use Moose::Role;
@@ -7,8 +10,6 @@ use MIME::Base64;
 use JSON::Any;
 
 requires '_restricted_request';
-
-our $VERSION = '1.08';
 
 has 'res_callback' => (
     is      => 'rw',
@@ -23,63 +24,59 @@ sub _wrape_response {
     croak $res->status_line unless $res->is_success;
     return $res->decoded_content unless $res->content_type =~ /json/i;
     my $j = JSON::Any->new();
-    return $j->from_json( $res->decoded_content );
+    return $j->from_json($res->decoded_content);
 }
 
 sub __build_path {
-    my ( $self, $api, $args ) = @_;
+    my ($self, $api, $args) = @_;
 
     return $api->{path} unless $api->{has_url_param};
     my $path = $api->{path};
-    my ( @no, @path_list );
-    if ( ref $path ) {
+    my (@no, @path_list);
+    if (ref $path) {
         push @path_list, @$path;
-    }
-    else {
+    } else {
         push @path_list, $path;
     }
 
   FOO: for my $path (@path_list) {
         my $p;
         while (1) {
-            my ( $type, $ele ) = do {
-                if ( $path =~ /\G([^{]+)/gc ) {
-                    ( 0, $1 );
-                }
-                elsif ( $path =~ /\G{(\w+)}/gc ) {
-                    ( 'param', $1 );
-                }
-                else {
+            my ($type, $ele) = do {
+                if ($path =~ /\G([^{]+)/gc) {
+                    (0, $1);
+                } elsif ($path =~ /\G{(\w+)}/gc) {
+                    ('param', $1);
+                } else {
                     last;
                 }
             };
             if ($type) {
-                if ( !exists $args->{$ele} ) {
+                if (!exists $args->{$ele}) {
                     push @no, $ele;
                     next FOO;
                 }
                 $p .= $args->{$ele};
-            }
-            else {
+            } else {
                 $p .= $ele;
             }
         }
         return $p;
     }
-    croak "Missing augument: ", join( "/", @no );
+    croak "Missing augument: ", join("/", @no);
 }
 
 sub __build_content {
-    my ( $self, $api, $args ) = @_;
+    my ($self, $api, $args) = @_;
     return unless $api->{content} && $api->{content_params};
-    my $decoded_content = decode_base64( $api->{content} );
+    my $decoded_content = decode_base64($api->{content});
 
-    $decoded_content = $api->{_build_content}->( $decoded_content, $args )
+    $decoded_content = $api->{_build_content}->($decoded_content, $args)
       if $api->{_build_content};
 
-    foreach my $param ( @{ $api->{content_params} } ) {
+    foreach my $param (@{$api->{content_params}}) {
         croak "Missing augument: $param" unless exists $args->{$param};
-        my $escaped = __escape( $args->{$param} );
+        my $escaped = __escape($args->{$param});
         $decoded_content =~ s/\Q{$param}\E/$escaped/g;
     }
 
@@ -98,7 +95,7 @@ sub __escape {
         '<'  => "&lt;",
         ">"  => '&gt'
     );
-    for my $key ( keys %foo ) {
+    for my $key (keys %foo) {
         $c =~ s/$key/$foo{$key}/g;
     }
     return $c;
@@ -115,7 +112,7 @@ Net::Douban::Roles - basic Moose role for Net::Douban
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 	

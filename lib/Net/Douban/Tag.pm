@@ -1,6 +1,6 @@
 package Net::Douban::Tag;
 {
-    $Net::Douban::Tag::VERSION = '1.09';
+    $Net::Douban::Tag::VERSION = '1.10';
 }
 
 use Carp qw/carp croak/;
@@ -10,19 +10,21 @@ use namespace::autoclean;
 
 our %api_hash = (
     get_tags => {
-        path          => '/{cat}/subject/{subjectID}/tags',
-        method        => 'GET',
-        has_url_param => 1,
+        path            => '/{cat}/subject/{subjectID}/tags',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
+        has_url_param   => 1,
     },
 
     get_user_tags => {
-        path          => '/people/{userID}/tags?cat={cat}',
-        method        => 'GET',
-        has_url_param => 1,
+        path            => '/people/{userID}/tags?cat={cat}',
+        optional_params => [qw/start-index max-results/],
+        method          => 'GET',
+        has_url_param   => 1,
     },
 );
 
-_build_method( __PACKAGE__, %api_hash );
+_build_method(__PACKAGE__, %api_hash);
 
 1;
 __END__
@@ -35,7 +37,7 @@ Net::Douban::Tag
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 
