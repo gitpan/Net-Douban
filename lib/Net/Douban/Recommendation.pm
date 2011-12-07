@@ -1,6 +1,6 @@
 package Net::Douban::Recommendation;
 {
-    $Net::Douban::Recommendation::VERSION = '1.11';
+    $Net::Douban::Recommendation::VERSION = '1.12';
 }
 
 use Moose::Role;
@@ -80,7 +80,7 @@ Net::Douban::Recommendation
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

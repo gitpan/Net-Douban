@@ -1,6 +1,6 @@
 package Net::Douban::OAuth;
 {
-    $Net::Douban::OAuth::VERSION = '1.11';
+    $Net::Douban::OAuth::VERSION = '1.12';
 }
 use Moose::Role;
 use Carp qw/carp croak/;
@@ -29,12 +29,12 @@ sub get_request_token {
     $self->_get_token(
         'request token',
         consumer_secret => $self->consumer_secret,
-        request_url     => $self->request_url,
+        request_url     => $self->request_url->canonical,
         (@_),
     );
     $self->paste_url(
-            $self->authorize_url 
-          . '/?oauth_token=' 
+            $self->authorize_url->canonical
+          . '/?oauth_token='
           . $self->request_token
           . (
             $args{callback_url}
@@ -51,7 +51,7 @@ sub get_access_token {
         consumer_secret => $self->consumer_secret,
         token           => $self->request_token,
         token_secret    => $self->request_token_secret,
-        request_url     => $self->access_url,
+        request_url     => $self->access_url->canonical,
         (@_),
     );
 }
@@ -122,7 +122,7 @@ sub _restricted_request {
         consumer_secret => $self->consumer_secret,
         token           => $self->access_token,
         token_secret    => $self->access_token_secret,
-        request_url     => $request_url,
+        request_url     => $request_url->canonical,
         extra_params    => $method eq 'GET' ? \%args : {},
     );
 
@@ -162,7 +162,7 @@ Net::Douban::OAuth - OAuth for Net::Douban
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

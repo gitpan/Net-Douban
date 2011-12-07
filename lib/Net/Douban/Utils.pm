@@ -1,6 +1,6 @@
 package Net::Douban::Utils;
 {
-    $Net::Douban::Utils::VERSION = '1.11';
+    $Net::Douban::Utils::VERSION = '1.12';
 }
 
 use Carp qw/carp croak/;
@@ -26,7 +26,9 @@ sub _build_method {
             #my $res         = delete $args{res_callback};
 
             ## try to build request url
-            $request_url .= $self->__build_path($api_hash{$key}, \%args);
+            $request_url->path_query(
+                $self->__build_path($api_hash{$key}, \%args));
+
             push @args, $self->__build_content($api_hash{$key}, \%args);
 
             ## at list on params needed
@@ -86,7 +88,7 @@ Net::Douban::Utils - Utils for Net::Douban
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

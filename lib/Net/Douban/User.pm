@@ -1,6 +1,6 @@
 package Net::Douban::User;
 {
-    $Net::Douban::User::VERSION = '1.11';
+    $Net::Douban::User::VERSION = '1.12';
 }
 
 use Moose::Role;
@@ -49,7 +49,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package Net::Douban::Traits::Gift;
 {
-    $Net::Douban::Traits::Gift::VERSION = '1.11';
+    $Net::Douban::Traits::Gift::VERSION = '1.12';
 }
 use Moose::Role;
 with "Net::Douban::User";
@@ -73,7 +73,7 @@ Net::Douban::Traits::Gift - Gift for Traits
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

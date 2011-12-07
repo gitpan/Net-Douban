@@ -1,6 +1,6 @@
 package Net::Douban::Roles;
 {
-    $Net::Douban::Roles::VERSION = '1.11';
+    $Net::Douban::Roles::VERSION = '1.12';
 }
 
 use Carp qw/carp croak/;
@@ -112,7 +112,7 @@ Net::Douban::Roles - basic Moose role for Net::Douban
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 	

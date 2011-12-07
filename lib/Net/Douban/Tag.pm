@@ -1,6 +1,6 @@
 package Net::Douban::Tag;
 {
-    $Net::Douban::Tag::VERSION = '1.11';
+    $Net::Douban::Tag::VERSION = '1.12';
 }
 
 use Carp qw/carp croak/;
@@ -37,7 +37,7 @@ Net::Douban::Tag
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

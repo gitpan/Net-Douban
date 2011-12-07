@@ -1,6 +1,6 @@
 package Net::Douban::Subject;
 {
-    $Net::Douban::Subject::VERSION = '1.11';
+    $Net::Douban::Subject::VERSION = '1.12';
 }
 
 use Moose::Role;
@@ -57,7 +57,7 @@ Net::Douban::Subject
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

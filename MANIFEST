@@ -30,6 +30,7 @@ t/06-subject.t
 t/07-review.t
 t/08-collection.t
 t/09-miniblog.t
+t/09-miniblog.t~
 t/10-note.t
 t/11-events.t
 t/12-recom.t
