@@ -1,6 +1,6 @@
 package Net::Douban::Miniblog;
 {
-    $Net::Douban::Miniblog::VERSION = '1.12';
+    $Net::Douban::Miniblog::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -59,7 +59,7 @@ EOF
     },
 );
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -72,7 +72,7 @@ Net::Douban::Miniblog
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

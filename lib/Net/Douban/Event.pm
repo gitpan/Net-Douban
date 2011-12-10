@@ -1,6 +1,6 @@
 package Net::Douban::Event;
 {
-    $Net::Douban::Event::VERSION = '1.12';
+    $Net::Douban::Event::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -67,16 +67,16 @@ our %api_hash = (
     search_events => {
         path            => '/events',
         optional_params => [qw/start-index max-results/],
-        params          => ['q', 'location'],
+        params          => [ 'q', 'location' ],
         method          => 'GET',
     },
 
-# nothing but stupid to do post
-#   post_event => {
-#        path => '/events',
-#        method => 'POST',
-#        stupid => 1,
-#    },
+    # nothing but stupid to do post
+    #   post_event => {
+    #        path => '/events',
+    #        method => 'POST',
+    #        stupid => 1,
+    #    },
 
     post_event_participant => {
         path          => '/event/{eventID}/participants',
@@ -103,7 +103,7 @@ our %api_hash = (
     },
 );
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -116,7 +116,7 @@ Net::Douban::Event
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

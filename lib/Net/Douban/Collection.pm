@@ -1,6 +1,6 @@
 package Net::Douban::Collection;
 {
-    $Net::Douban::Collection::VERSION = '1.12';
+    $Net::Douban::Collection::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -16,10 +16,9 @@ our %api_hash = (
     },
 
     get_user_collection => {
-        path            => '/people/{userID}/collection',
-        optional_params => [
-            qw/cat tag status updated-max updated-min start-index max-results/
-        ],
+        path => '/people/{userID}/collection',
+        optional_params =>
+          [qw/cat tag status updated-max updated-min start-index max-results/],
         method        => 'GET',
         has_url_param => '1',
     },
@@ -36,7 +35,7 @@ our %api_hash = (
         method         => 'PUT',
         _build_content => \&__check_private_tag,
         content_params =>
-          ['rating', 'content', 'subjectID', 'status', 'collectionID'],
+          [ 'rating', 'content', 'subjectID', 'status', 'collectionID' ],
         content => <<'EOF',
 PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5IHhtbG5zOm5zMD0i
 aHR0cDovL3d3dy53My5vcmcvMjAwNS9BdG9tIiB4bWxuczpkYj0iaHR0cDovL3d3dy5kb3ViYW4u
@@ -53,7 +52,7 @@ EOF
     post_collection => {
         path           => '/collection',
         method         => 'POST',
-        content_params => ['rating', 'content', 'subjectID', 'status'],
+        content_params => [ 'rating', 'content', 'subjectID', 'status' ],
         _build_content => \&__check_private_tag,
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5IHhtbG5zOm5zMD0i
@@ -68,15 +67,16 @@ EOF
 );
 
 sub __check_private_tag {
-    my ($content, $args) = @_;
-    if ($args->{private}) {
+    my ( $content, $args ) = @_;
+    if ( $args->{private} ) {
         my $entry = '<db:attribute name="privacy">private</db:attribute>';
         $content =~ s/{private}/$entry/g;
-    } else {
+    }
+    else {
         my $entry = '<db:attribute name="privacy">public</db:attribute>';
         $content =~ s/{private}/$entry/g;
     }
-    if (my $tags = $args->{tags}) {
+    if ( my $tags = $args->{tags} ) {
         my @tags = ref $args ? @$tags : ($tags);
         my $entry = join " ", map { '<db:tag name="' . $_ . '" />' } @tags;
         $content =~ s/{tags}/$entry/;
@@ -84,7 +84,7 @@ sub __check_private_tag {
     return $content;
 }
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -97,7 +97,7 @@ __END__
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
     

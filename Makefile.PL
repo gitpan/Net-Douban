@@ -29,9 +29,10 @@ my %WriteMakefileArgs = (
     "MooseX::Traits" => 0,
     "Net::OAuth" => 0,
     "Scalar::Util" => 0,
-    "Test::More" => 0
+    "Test::More" => 0,
+    "URI" => 0
   },
-  "VERSION" => "1.12",
+  "VERSION" => "1.13",
   "test" => {
     "TESTS" => "t/*.t"
   }

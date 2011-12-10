@@ -1,6 +1,6 @@
 package Net::Douban::Note;
 {
-    $Net::Douban::Note::VERSION = '1.12';
+    $Net::Douban::Note::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -26,7 +26,7 @@ our %api_hash = (
     post_note => {
         path           => '/notes',
         method         => 'POST',
-        content_params => ['content', 'title'],
+        content_params => [ 'content', 'title' ],
         _build_content => \&__check_private_reply,
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
@@ -40,7 +40,7 @@ EOF
         path           => '/note/{noteID}',
         has_url_param  => 1,
         method         => 'PUT',
-        content_params => ['content', 'title'],
+        content_params => [ 'content', 'title' ],
         _build_content => \&__check_private_reply,
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
@@ -58,25 +58,27 @@ EOF
 );
 
 sub __check_private_reply {
-    my ($content, $args) = @_;
-    if ($args->{private}) {
+    my ( $content, $args ) = @_;
+    if ( $args->{private} ) {
         my $entry = '<db:attribute name="privacy">private</db:attribute>';
         $content =~ s/{private}/$entry/g;
-    } else {
+    }
+    else {
         my $entry = '<db:attribute name="privacy">public</db:attribute>';
         $content =~ s/{private}/$entry/g;
     }
-    if (!exists $args->{can_reply} || $args->{can_reply}) {
+    if ( !exists $args->{can_reply} || $args->{can_reply} ) {
         my $entry = '<db:attribute name="can_reply">yes</db:attribute>';
         $content =~ s/{can_reply}/$entry/g;
-    } else {
+    }
+    else {
         my $entry = '<db:attribute name="can_reply">no</db:attribute>';
         $content =~ s/{can_reply}/$entry/g;
     }
     return $content;
 }
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -89,7 +91,7 @@ Net::Douban::Note
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package Net::Douban;
 {
-    $Net::Douban::VERSION = '1.12';
+    $Net::Douban::VERSION = '1.13';
 }
 use URI;
 use Moose;
@@ -12,10 +12,15 @@ with 'MooseX::Traits';
 with "Net::Douban::Roles";
 use namespace::autoclean;
 
-subtype 'Net::Douban::URI' => as class_type('URI');
-coerce 'Net::Douban::URI' => from 'Str' => via { URI->new($_, 'http') };
+subtype 'Net::Douban::URI', as class_type('URI'),
+  ## this regex is taken from FormValidator::Lite::Constraint::URL
+  where {
+    $_->canonical =~ /^s?https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+$/;
+  }, message { 'Invalid URL' };
 
-has 'realm' => (is => 'ro', default => 'http://www.douban.com');
+coerce 'Net::Douban::URI' => from 'Str' => via { URI->new($_) };
+
+has 'realm' => ( is => 'ro', default => 'http://www.douban.com' );
 
 has 'api_base' => (
     is      => 'rw',
@@ -36,31 +41,33 @@ has '+access_url' => (
       sub { URI->new('http://www.douban.com/service/auth/access_token') },
 );
 has '+authorize_url' => (
-    is  => 'rw',
-    isa => 'Net::Douban::URI',
-    default =>
-      sub { URI->new('http://www.douban.com/service/auth/authorize') },
+    is      => 'rw',
+    isa     => 'Net::Douban::URI',
+    default => sub { URI->new('http://www.douban.com/service/auth/authorize') },
 );
 
 sub init {
     my $class = shift;
     my %args  = @_;
-    if ($args{Traits} && $args{Roles}) {
+    if ( $args{Traits} && $args{Roles} ) {
         warn "Roles will be ignored when we have Traits";
     }
-    if ($args{Traits}) {
-        my @traits = ref $args{Traits} ? @{$args{Traits}} : ($args{Traits});
+    if ( $args{Traits} ) {
+        my @traits = ref $args{Traits} ? @{ $args{Traits} } : ( $args{Traits} );
         for my $t (@traits) {
-            if ($t =~ s/^\+//g) {
+            if ( $t =~ s/^\+//g ) {
                 $class = $class->with_traits($t);
-            } else {
+            }
+            else {
                 $class = $class->with_traits("Net::Douban::Traits::$t");
             }
         }
-    } elsif ($args{Roles}) {
-        my @roles = ref $args{Roles} ? @{$args{Roles}} : ($args{Roles});
+    }
+    elsif ( $args{Roles} ) {
+        my @roles = ref $args{Roles} ? @{ $args{Roles} } : ( $args{Roles} );
         $class = $class->with_traits("Net::Douban::$_") foreach @roles;
-    } else {
+    }
+    else {
         croak "Without Traits or Roles, I can not do anything";
     }
     delete $args{Roles};
@@ -81,7 +88,7 @@ Net::Douban - Perl client for douban.com
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
     

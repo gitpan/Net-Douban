@@ -1,6 +1,6 @@
 package Net::Douban::Utils;
 {
-    $Net::Douban::Utils::VERSION = '1.12';
+    $Net::Douban::Utils::VERSION = '1.13';
 }
 
 use Carp qw/carp croak/;
@@ -12,8 +12,8 @@ use namespace::autoclean;
 our @EXPORT = ('_build_method');
 
 sub _build_method {
-    my ($self, %api_hash) = @_;
-    for my $key (keys %api_hash) {
+    my ( $self, %api_hash ) = @_;
+    for my $key ( keys %api_hash ) {
 
         my $sub = sub {
             my $self        = shift;
@@ -27,16 +27,16 @@ sub _build_method {
 
             ## try to build request url
             $request_url->path_query(
-                $self->__build_path($api_hash{$key}, \%args));
+                $self->__build_path( $api_hash{$key}, \%args ) );
 
-            push @args, $self->__build_content($api_hash{$key}, \%args);
+            push @args, $self->__build_content( $api_hash{$key}, \%args );
 
             ## at list on params needed
             if ($params) {
                 my @p = ref $params ? @$params : ($params);
                 my $exists = 0;
                 for my $pp (@p) {
-                    if (exists $args{$pp}) {
+                    if ( exists $args{$pp} ) {
                         push @args, $pp => $args{$pp};
                         $exists++;
                     }
@@ -52,15 +52,16 @@ sub _build_method {
             my @others =
               $optional
               ? (
-                grep {$_}
+                grep { $_ }
                 map { exists $args{$_} && $_ => $args{$_} } @$optional
               )
               : ();
 
-           #return $res->($self->_restricted_request(@args, @others)) if $res;
-            $self->res_callback->($self->_restricted_request(@args, @others));
+            #return $res->($self->_restricted_request(@args, @others)) if $res;
+            $self->res_callback->(
+                $self->_restricted_request( @args, @others ) );
         };
-        $self->meta->add_method($key, $sub);
+        $self->meta->add_method( $key, $sub );
     }
 }
 
@@ -69,7 +70,7 @@ sub build_url {
     my $url  = shift;
     my %args = @_;
     my $mark = $url =~ /\?/ ? '&' : '?';
-    while (my ($key, $value) = each %args) {
+    while ( my ( $key, $value ) = each %args ) {
         $key =~ s/-/_/g;
         $url .= $mark . "$key=$value";
         $mark = '&';
@@ -88,7 +89,7 @@ Net::Douban::Utils - Utils for Net::Douban
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

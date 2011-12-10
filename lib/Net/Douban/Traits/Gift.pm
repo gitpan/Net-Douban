@@ -1,6 +1,6 @@
 package Net::Douban::Traits::Gift;
 {
-    $Net::Douban::Traits::Gift::VERSION = '1.12';
+    $Net::Douban::Traits::Gift::VERSION = '1.13';
 }
 use Moose::Role;
 with "Net::Douban::User";
@@ -14,51 +14,51 @@ with "Net::Douban::Recommendation";
 with "Net::Douban::Doumail";
 with "Net::Douban::Tag";
 
-has 'uid' => (isa => 'Str', is => 'rw', predicate => 'has_uid');
+has 'uid' => ( isa => 'Str', is => 'rw', predicate => 'has_uid' );
 
 before qw/my_reviews my_collections my_miniblogs my_contact_miniblogs
   my_notes my_events my_recoms/ => sub {
 
     my $self = shift;
-    if (!$self->has_uid) {
+    if ( !$self->has_uid ) {
         my $json = $self->me;
-        $self->uid($json->{"db:uid"}->{'$t'});
+        $self->uid( $json->{"db:uid"}->{'$t'} );
     }
   };
 
 sub my_reviews {
     my $self = shift;
-    return $self->get_user_review(userID => $self->uid);
+    return $self->get_user_review( userID => $self->uid );
 }
 
 sub my_collections {
     my $self = shift;
-    return $self->get_user_collection(userID => $self->uid);
+    return $self->get_user_collection( userID => $self->uid );
 }
 
 sub my_miniblogs {
     my $self = shift;
-    return $self->get_user_miniblog(userID => $self->uid);
+    return $self->get_user_miniblog( userID => $self->uid );
 }
 
 sub my_contact_miniblogs {
     my $self = shift;
-    return $self->get_contact_miniblog(userID => $self->uid);
+    return $self->get_contact_miniblog( userID => $self->uid );
 }
 
 sub my_notes {
     my $self = shift;
-    return $self->get_user_notes(userID => $self->uid);
+    return $self->get_user_notes( userID => $self->uid );
 }
 
 sub my_events {
     my $self = shift;
-    return $self->get_user_events(userID => $self->uid);
+    return $self->get_user_events( userID => $self->uid );
 }
 
 sub my_recoms {
     my $self = shift;
-    return $self->get_user_recom(userID => $self->uid);
+    return $self->get_user_recom( userID => $self->uid );
 }
 
 1;
@@ -73,7 +73,7 @@ Net::Douban::Traits::Gift - Gift for Traits
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

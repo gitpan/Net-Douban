@@ -1,6 +1,6 @@
 package Net::Douban::Review;
 {
-    $Net::Douban::Review::VERSION = '1.12';
+    $Net::Douban::Review::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -48,7 +48,7 @@ our %api_hash = (
     post_review => {
         path           => '/reviews',
         method         => 'POST',
-        content_params => ['subjectID', 'content', 'rating', 'title'],
+        content_params => [ 'subjectID', 'content', 'rating', 'title' ],
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5IHhtbG5zOm5zMD0i
 aHR0cDovL3d3dy53My5vcmcvMjAwNS9BdG9tIj4gPGRiOnN1YmplY3QgeG1sbnM6ZGI9Imh0dHA6
@@ -65,7 +65,7 @@ EOF
         method        => 'POST',
         has_url_param => 1,
         content_params =>
-          ['subjectID', 'reviewID', 'title', 'content', 'rating'],
+          [ 'subjectID', 'reviewID', 'title', 'content', 'rating' ],
         content => <<'EOF',
 PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz48ZW50cnkgeG1sbnM6bnMwPSJo
 dHRwOi8vd3d3LnczLm9yZy8yMDA1L0F0b20iPjxpZD5odHRwOi8vYXBpLmRvdWJhbi5jb20vcmV2
@@ -85,7 +85,7 @@ EOF
     },
 );
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -98,7 +98,7 @@ Net::Douban::Review
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 

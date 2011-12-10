@@ -1,6 +1,6 @@
 package Net::Douban::Doumail;
 {
-    $Net::Douban::Doumail::VERSION = '1.12';
+    $Net::Douban::Doumail::VERSION = '1.13';
 }
 
 use Moose::Role;
@@ -36,7 +36,7 @@ our %api_hash = (
     post_mail => {
         path           => '/doumails',
         method         => 'POST',
-        content_params => ['title', 'content', 'receiver'],
+        content_params => [ 'title', 'content', 'receiver' ],
         content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
 Oi8vd3d3LnczLm9yZy8yMDA1L0F0b20iIHhtbG5zOmRiPSJodHRwOi8vd3d3LmRvdWJhbi5jb20v
@@ -100,24 +100,26 @@ EOF
 );
 
 sub _check_captcha {
-    my ($content, $args) = @_;
-    if (!exists $args->{captcha} && !exists $args->{captcha_token}) {
+    my ( $content, $args ) = @_;
+    if ( !exists $args->{captcha} && !exists $args->{captcha_token} ) {
         $content =~ s/{captcha}//g;
         $content =~ s/{captcha_token}//g;
-    } elsif (exists $args->{captcha} && exists $args->{captcha_token}) {
+    }
+    elsif ( exists $args->{captcha} && exists $args->{captcha_token} ) {
         $content =~ s/{captcha}/$args->{captcah}/g;
         $content =~ s/{captcha_token}/$args->{captcha_token}/g;
-    } else {
+    }
+    else {
         croak "Missing augument: captcha_token/captcha";
     }
     return $content;
 }
 
 sub _check_mailIDs {
-    my ($content, $args) = @_;
+    my ( $content, $args ) = @_;
     croak 'Missing augument: mailIDs' unless exists $args->{mailIDs};
     my @mailIDs =
-      ref $args->{mailIDs} ? @{$args->{mailIDs}} : $args->{mailIDs};
+      ref $args->{mailIDs} ? @{ $args->{mailIDs} } : $args->{mailIDs};
     my $entries;
     for my $mail (@mailIDs) {
         $entries .= <<"EOF";
@@ -129,10 +131,10 @@ EOF
 }
 
 sub _delete_mails {
-    my ($content, $args) = @_;
+    my ( $content, $args ) = @_;
     croak 'Missing augument: mailIDs' unless exists $args->{mailIDs};
     my @mailIDs =
-      ref $args->{mailIDs} ? @{$args->{mailIDs}} : $args->{mailIDs};
+      ref $args->{mailIDs} ? @{ $args->{mailIDs} } : $args->{mailIDs};
     my $entries;
     for my $mail (@mailIDs) {
         $entries .= <<"EOF";
@@ -144,7 +146,7 @@ EOF
 
 }
 
-_build_method(__PACKAGE__, %api_hash);
+_build_method( __PACKAGE__, %api_hash );
 1;
 
 __END__
@@ -157,7 +159,7 @@ __END__
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 
