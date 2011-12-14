@@ -1,6 +1,6 @@
 package Net::Douban::OAuth;
 {
-    $Net::Douban::OAuth::VERSION = '1.13';
+    $Net::Douban::OAuth::VERSION = '1.14';
 }
 use Moose::Role;
 use Carp qw/carp croak/;
@@ -14,14 +14,14 @@ for my $rw_attr (
     access_token access_token_secret paste_url oauth_version extra_params/
   )
 {
-    has $rw_attr => ( is => 'rw' );
+    has $rw_attr => (is => 'rw');
 }
 
 for my $ro_attr (qw/request_url access_url authorize_url/) {
-    has $ro_attr => ( is => 'rw' );
+    has $ro_attr => (is => 'rw');
 }
 
-has 'ua' => ( is => 'rw', lazy_build => 1 );
+has 'ua' => (is => 'rw', lazy_build => 1);
 
 sub get_request_token {
     my $self = shift;
@@ -59,20 +59,19 @@ sub get_access_token {
 sub _get_token {
     my $self    = shift;
     my $type    = shift;
-    my $request = $self->_get_request( $type, 'POST', @_ );
-    my $res     = $self->ua->request( POST $request->to_url );
-    if ( !$res->is_success ) {
+    my $request = $self->_get_request($type, 'POST', @_);
+    my $res     = $self->ua->request(POST $request->to_url);
+    if (!$res->is_success) {
         croak $res->status_line;
         return;
-    }
-    else {
-        $self->_store_token( $type, $res );
+    } else {
+        $self->_store_token($type, $res);
     }
 }
 
 sub _get_request {
     my $self = shift;
-    my ( $type, $method, %args ) = @_;
+    my ($type, $method, %args) = @_;
 
     my $request = Net::OAuth->request($type)->new(
         consumer_key => $self->consumer_key,
@@ -91,24 +90,24 @@ sub _get_request {
 }
 
 sub _gen_nonce {
-    return time ^ $$ ^ int( rand 2 ^ 32 );
+    return time ^ $$ ^ int(rand 2 ^ 32);
 }
 
 sub load_token {
-    my ( $self, %tokens ) = @_;
-    for my $token_name ( keys %tokens ) {
-        eval { $self->$token_name( $tokens{$token_name} ) };
+    my ($self, %tokens) = @_;
+    for my $token_name (keys %tokens) {
+        eval { $self->$token_name($tokens{$token_name}) };
         carp "Warninng: skipped $token_name, $@" if $@;
     }
 }
 
 sub _store_token {
-    my ( $self, $type, $res ) = @_;
-    my $mesg = Net::OAuth->response($type)->from_post_body( $res->content );
+    my ($self, $type, $res) = @_;
+    my $mesg = Net::OAuth->response($type)->from_post_body($res->content);
     $type =~ s/\s+/_/g;
-    $self->$type( $mesg->token );
+    $self->$type($mesg->token);
     $type .= '_secret';
-    $self->$type( $mesg->token_secret );
+    $self->$type($mesg->token_secret);
 }
 
 sub _restricted_request {
@@ -128,15 +127,14 @@ sub _restricted_request {
     );
 
     my $http_request;
-    if ( $method eq 'GET' ) {
-        $http_request = HTTP::Request->new( $method, $request->to_url );
-    }
-    else {
+    if ($method eq 'GET') {
+        $http_request = HTTP::Request->new($method, $request->to_url);
+    } else {
         no strict 'refs';
         $http_request = $method->(
             $request->request_url,
             Authorization =>
-              $request->to_authorization_header( $self->realm ),
+              $request->to_authorization_header($self->realm),
             %args,
         );
     }
@@ -164,7 +162,7 @@ Net::Douban::OAuth - OAuth for Net::Douban
 
 =head1 VERSION
 
-version 1.13
+version 1.14
 
 =head1 SYNOPSIS
 

@@ -24,4 +24,6 @@ requires:
   Scalar::Util: 0
   Test::More: 0
   URI: 0
-version: 1.13
+resources:
+  repository: git://github.com/woosley/Perl-Net-Douban.git
+version: 1.14

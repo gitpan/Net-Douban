@@ -1,6 +1,6 @@
 package Net::Douban::Recommendation;
 {
-    $Net::Douban::Recommendation::VERSION = '1.13';
+    $Net::Douban::Recommendation::VERSION = '1.14';
 }
 
 use Moose::Role;
@@ -8,32 +8,31 @@ use Carp qw/carp croak/;
 use namespace::autoclean;
 use Net::Douban::Utils;
 
-our %api_hash = (
-    get_recom => {
-        path          => '/recommendation/{recomID}',
-        has_url_param => 1,
-        method        => 'GET',
-    },
+douban_method get_recom => {
+    path          => '/recommendation/{recomID}',
+    has_url_param => 1,
+    method        => 'GET',
+};
 
-    get_user_recom => {
-        path            => '/people/{userID}/recommendations',
-        optional_params => [qw/start-index max-results/],
-        has_url_param   => 1,
-        method          => 'GET',
-    },
+douban_method get_user_recom => {
+    path            => '/people/{userID}/recommendations',
+    optional_params => [qw/start-index max-results/],
+    has_url_param   => 1,
+    method          => 'GET',
+};
 
-    get_recom_comments => {
-        path            => '/recommendation/{recomID}/comments',
-        optional_params => [qw/start-index max-results/],
-        has_url_param   => 1,
-        method          => 'GET',
-    },
+douban_method get_recom_comments => {
+    path            => '/recommendation/{recomID}/comments',
+    optional_params => [qw/start-index max-results/],
+    has_url_param   => 1,
+    method          => 'GET',
+};
 
-    post_recom => {
-        path           => '/recommendations',
-        method         => 'POST',
-        content_params => [ 'title', 'comment', 'link' ],
-        content        => <<'EOF',
+douban_method post_recom => {
+    path           => '/recommendations',
+    method         => 'POST',
+    content_params => ['title', 'comment', 'link'],
+    content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPGVudHJ5IHhtbG5zPSJodHRw
 Oi8vd3d3LnczLm9yZy8yMDA1L0F0b20iIHhtbG5zOmdkPSJodHRwOi8vc2NoZW1hcy5nb29nbGUu
 Y29tL2cvMjAwNSIgeG1sbnM6b3BlbnNlYXJjaD0iaHR0cDovL2E5LmNvbS8tL3NwZWMvb3BlbnNl
@@ -42,32 +41,29 @@ aXRsZT57dGl0bGV9PC90aXRsZT4gPGRiOmF0dHJpYnV0ZSBuYW1lPSJjb21tZW50Ij57Y29tbWVu
 dH08L2RiOmF0dHJpYnV0ZT4gPGxpbmsgaHJlZj0ie2xpbmt9IiByZWw9InJlbGF0ZWQiIC8+PC9l
 bnRyeT4gCg==
 EOF
-    },
+};
 
-    delete_recom => {
-        path          => '/recommendation/{recomID}',
-        method        => 'DELETE',
-        has_url_param => 1,
-    },
+douban_method delete_recom => {
+    path          => '/recommendation/{recomID}',
+    method        => 'DELETE',
+    has_url_param => 1,
+};
 
-    post_comment => {
-        path           => '/recommendation/{recomID}/comments',
-        method         => 'POST',
-        has_url_param  => 1,
-        content_params => ['content'],
-        content        => <<'EOF',
+douban_method post_comment => {
+    path           => '/recommendation/{recomID}/comments',
+    method         => 'POST',
+    has_url_param  => 1,
+    content_params => ['content'],
+    content        => <<'EOF',
 PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4gPGVudHJ5PiA8Y29udGVudD57
 Y29udGVudH08L2NvbnRlbnQ+IDwvZW50cnk+IAo=
 EOF
-    },
-    delete_comment => {
-        path          => '/recommendation/{recomID}/comment/{commentID}/',
-        has_url_param => 1,
-        method        => 'DELETE',
-    },
-);
-
-_build_method( __PACKAGE__, %api_hash );
+};
+douban_method delete_comment => {
+    path          => '/recommendation/{recomID}/comment/{commentID}/',
+    has_url_param => 1,
+    method        => 'DELETE',
+};
 1;
 
 __END__
@@ -80,7 +76,7 @@ Net::Douban::Recommendation
 
 =head1 VERSION
 
-version 1.13
+version 1.14
 
 =head1 SYNOPSIS
 

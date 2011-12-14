@@ -20,6 +20,7 @@ lib/Net/Douban/Tag.pm
 lib/Net/Douban/Traits/Gift.pm
 lib/Net/Douban/User.pm
 lib/Net/Douban/Utils.pm
+lib/Net/Douban/Utils/Role.pm
 t/00-load.t
 t/01-douban.t
 t/02-oauth.t

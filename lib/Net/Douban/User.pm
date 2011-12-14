@@ -1,6 +1,6 @@
 package Net::Douban::User;
 {
-    $Net::Douban::User::VERSION = '1.13';
+    $Net::Douban::User::VERSION = '1.14';
 }
 
 use Moose::Role;
@@ -8,34 +8,34 @@ use Carp qw/carp croak/;
 use Net::Douban::Utils;
 use namespace::autoclean;
 
-our %api_hash = (
-    get_user => {
-        has_url_param => 'userID',
-        path          => '/people/{userID}',
-        method        => 'GET'
-    },
-    get_user_contacts => {
-        has_url_param   => 'userID',
-        path            => '/people/{userID}/contacts',
-        optional_params => [qw/start-index max-results/],
-        method          => 'GET',
-    },
-    get_user_friends => {
-        has_url_param   => 'userID',
-        path            => '/people/{userID}/friends',
-        optional_params => [qw/start-index max-results/],
-        method          => 'GET',
-    },
-    search_user => {
-        params          => 'q',
-        path            => '/people',
-        method          => 'GET',
-        optional_params => [qw/start-index max-results/],
-    },
-    me => { path => '/people/%40me', method => 'GET' },
-);
+douban_method 'get_user' => {
+    has_url_param => 'userID',
+    path          => '/people/{userID}',
+    method        => 'GET'
+};
 
-_build_method( __PACKAGE__, %api_hash );
+douban_method 'get_user_contacts' => {
+    has_url_param   => 'userID',
+    path            => '/people/{userID}/contacts',
+    optional_params => [qw/start-index max-results/],
+    method          => 'GET',
+};
+
+douban_method 'get_user_friends' => {
+    has_url_param   => 'userID',
+    path            => '/people/{userID}/friends',
+    optional_params => [qw/start-index max-results/],
+    method          => 'GET',
+};
+
+douban_method 'search_user' => {
+    params          => 'q',
+    path            => '/people',
+    method          => 'GET',
+    optional_params => [qw/start-index max-results/],
+};
+
+douban_method 'me' => {path => '/people/%40me', method => 'GET'};
 
 1;
 
@@ -49,7 +49,7 @@ Net::Douban::User
 
 =head1 VERSION
 
-version 1.13
+version 1.14
 
 =head1 SYNOPSIS
 
